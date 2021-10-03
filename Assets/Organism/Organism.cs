@@ -46,6 +46,7 @@ namespace Organism
         }
         protected virtual void Awake()
         {
+            Debug.Log("Awake");
             rb = gameObject.GetComponent<Rigidbody>();
             _energyConsumed = 0;
         }

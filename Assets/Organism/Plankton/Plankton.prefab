@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: -326441090649820861}
   - component: {fileID: 5949311842035270057}
   m_Layer: 0
-  m_Name: Plancton
+  m_Name: Plankton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

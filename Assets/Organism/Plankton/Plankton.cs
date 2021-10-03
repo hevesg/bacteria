@@ -1,9 +1,9 @@
 using Humus;
 using UnityEngine;
 
-namespace Organism.Plancton
+namespace Organism.Plankton
 {
-    public class Plancton : Organism
+    public class Plankton : Organism
     {
 
         private HumusCube _humusCube;
@@ -12,16 +12,6 @@ namespace Organism.Plancton
         {
             var scale = Mathf.Pow((3 * rb.mass) / (10 * Mathf.PI), 1f / 3f);
             gameObject.transform.localScale = new Vector3(scale, scale, scale);
-        }
-
-        protected Plancton clone()
-        {
-            var go = gameObject;
-            var plancton = Instantiate(go, go.transform.position, Quaternion.Euler(0, Rotation + 180, 0));
-            var script = plancton.GetComponent<Plancton>();
-            script.Energy = Energy;
-            script.Mass = Mass;
-            return script;
         }
 
         protected override void Awake()
@@ -34,6 +24,7 @@ namespace Organism.Plancton
         {
             base.Start();
             _humusCube = _aquarium.GetHumusCubeAt(gameObject.transform.position);
+            rb.velocity = Vector3.zero;
         }
 
         void Update()
@@ -48,8 +39,8 @@ namespace Organism.Plancton
         protected override void Split()
         {
             base.Split();
-            _aquarium.AddPlancton(clone());
-            Jets(100f, Random.Range(-1f, 1f), false);
+            _aquarium.AddPlankton(this);
+            Jets(10f, Random.Range(-100f, 100f), false);
         }
 
     }

@@ -267,8 +267,8 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
-  orthographic: 1
+  field of view: 30
+  orthographic: 0
   orthographic size: 6
   m_Depth: -1
   m_CullingMask:
@@ -328,6 +328,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1286376002600648725, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
       propertyPath: planctonPrefab
+      value: 
+      objectReference: {fileID: 3529676976038815217, guid: 39a4cda985983492d87f49e5b0b54c22, type: 3}
+    - target: {fileID: 1286376002600648725, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
+      propertyPath: planktonPrefab
       value: 
       objectReference: {fileID: 3529676976038815217, guid: 39a4cda985983492d87f49e5b0b54c22, type: 3}
     - target: {fileID: 2098840039021104285, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}

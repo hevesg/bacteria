@@ -1,6 +1,5 @@
-using System.Collections.Generic;
 using Humus;
-using Organism.Plancton;
+using Organism.Plankton;
 using UnityEngine;
 
 namespace Aquarium
@@ -9,7 +8,7 @@ namespace Aquarium
     {
         public Vector3Int size;
         public float wallThickness;
-        public GameObject planctonPrefab;
+        public GameObject planktonPrefab;
         
         private GameObject _northernWall;
         private GameObject _easternWall;
@@ -17,12 +16,12 @@ namespace Aquarium
         private GameObject _westernWall;
 
         private HumusContainer _humusContainer;
-        private List<Plancton> _planctons;
+        private PlanktonService _planktonService;
 
         private void Awake()
         {
             _humusContainer = new HumusContainer(new Vector3Int(size.x, 1, size.z));
-            _planctons = new List<Plancton>();
+            _planktonService = new PlanktonService(size);
         }
 
         void Start()
@@ -37,7 +36,11 @@ namespace Aquarium
                     {
                         if (i % 3 == 0)
                         {
-                            AddPlancton(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f));
+                            AddPlankton(
+                                new Vector3(x + 0.5f, y + 0.5f, z + 0.5f),
+                                new Vector3(0, Random.Range(-180f, 180f), 0),
+                                0, (int) 10e4
+                                );
                         }
                         i++;
                     }
@@ -69,24 +72,24 @@ namespace Aquarium
             _westernWall.transform.position = new Vector3(0, 0, size.z);
         }
 
-        public void AddPlancton(Plancton plancton)
+        public void AddPlankton(Plankton original)
         {
-            var go = plancton.gameObject;
-            var transformPosition = go.transform.position;
-            transformPosition.x -= 0.5f;
-            transformPosition.z -= 0.5f;
-            go.transform.parent = gameObject.transform;
-            plancton.Jets(100f, Random.Range(-1f, 1f), false);
-            _planctons.Add(plancton.GetComponent<Plancton>());
-            Debug.Log(_planctons.Count);
+            var originalTransform = original.gameObject.transform;
+            var originalPosition = originalTransform.position;
+            var originalRotation = originalTransform.rotation.eulerAngles;
+            var position = new Vector3(originalPosition.x + 0.05f, originalPosition.y, originalPosition.z + 0.05f);
+            var rotation = new Vector3(originalRotation.x, originalRotation.y - 180f, originalRotation.z);
+            var plankton = _planktonService.Create(
+                position, rotation, original.Energy, original.Mass
+                );
+            plankton.gameObject.transform.SetParent(gameObject.transform);
+            plankton.Jets(10f, Random.Range(-100f, 100f), false);
         }
-        private void AddPlancton(Vector3 position)
+        
+        private void AddPlankton(Vector3 position, Vector3 rotation, int energy, int mass)
         {
-            var plancton = Instantiate(planctonPrefab, position, Quaternion.Euler(0, Random.Range(-180f, 180f), 0));
-            plancton.transform.parent = gameObject.transform;
-            plancton.GetComponent<Plancton>().Energy = 0;
-            plancton.GetComponent<Plancton>().Mass = (int) (10e1);
-            _planctons.Add(plancton.GetComponent<Plancton>());
+            var plankton = _planktonService.Create(position, rotation, energy, mass);
+            plankton.gameObject.transform.SetParent(gameObject.transform);
         }
 
         public HumusCube GetHumusCubeAt(Vector3 position)

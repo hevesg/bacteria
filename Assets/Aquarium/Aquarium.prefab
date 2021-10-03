@@ -48,7 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 10, y: 10, z: 0}
-  wallTickness: 0
+  wallThickness: 0
+  planktonPrefab: {fileID: 0}
 --- !u!1001 &2229319038048133696
 PrefabInstance:
   m_ObjectHideFlags: 0
