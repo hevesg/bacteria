@@ -1,54 +1,63 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace Humus
 {
-    public class HumusCube
+    public class HumusCube : MonoBehaviour
     {
-        private int _quantity;
-        private readonly List<HumusCube> _neighbors;
-        private readonly Vector3Int _position;
-        private static float _fullShareSeconds = 5;
+        public int initialQuantity;
+        private GameObject _body;
+        private Material _material;
 
-        internal HumusCube(int initialQuantity, Vector3Int position)
+        private void Awake()
         {
-            _quantity = initialQuantity;
-            _position = position;
-            _neighbors = new List<HumusCube>();
+            initialQuantity = (int) 1e6;
+            
+            _body = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            _body.name = "Body";
+            _body.transform.SetParent(gameObject.transform);
+            _body.transform.localPosition = new Vector3(0.5f, 0.5f, 0.5f);
+            _body.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            _body.transform.localScale = new Vector3(1, 1, 1);
+            
+            var col = _body.GetComponent<BoxCollider>();
+            col.isTrigger = true;
+
+            _material = new Material(Shader.Find("Standard"));
+            _material.SetFloat("_Mode", 2f);
+            _material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            _material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            _material.SetInt("_ZWrite", 0);
+            _material.DisableKeyword("_ALPHATEST_ON");
+            _material.EnableKeyword("_ALPHABLEND_ON");
+            _material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+            _material.renderQueue = 3000;
+            _material.color = Color;
+            _body.GetComponent<Renderer>().material = _material;
         }
-        
-        public int Quantity => _quantity;
-        
-        public Vector3Int Position => _position;
+
+        private void Start()
+        {
+            Quantity = initialQuantity;
+            _material.color = Color;
+        }
+
+        public int Quantity { get; private set; }
+
+        private Color Color => new Color(0, 0, 0, (float) Quantity / (float) 1e7);
 
         public int ProvideHumus(int quantity)
         {
             if (quantity > Quantity)
             {
                 var availability = Quantity;
-                _quantity = 0;
+                Quantity = 0;
+                _material.color = Color;
                 return availability;
             }
-            _quantity -= quantity;
+            Quantity -= quantity;
+            _material.color = Color;
             return quantity;
-        }
-
-        internal void AddNeighbor(HumusCube humusCube)
-        {
-            _neighbors.Add(humusCube);
-        }
-
-        internal void ShareWithNeighbor(float deltaTime)
-        {
-            var neighbor = GetRandomNeighbor();
-            var deltaQuantity = (int) ((_quantity - neighbor._quantity) * (deltaTime / _fullShareSeconds) / 2);
-            _quantity -= deltaQuantity;
-            neighbor._quantity += deltaQuantity;
-        }
-
-        private HumusCube GetRandomNeighbor()
-        {
-            return _neighbors[Random.Range(0, _neighbors.Count - 1)];
         }
     }
 }

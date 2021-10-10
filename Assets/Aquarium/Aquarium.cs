@@ -22,15 +22,17 @@ namespace Aquarium
 
         private void Awake()
         {
-            _humusContainer = new HumusContainer(new Vector3Int(size.x, 1, size.z));
-            _planktonService = new PlanktonService(size);
-            _bacteriaService = new BacteriaService();
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 60;
+            _humusContainer = CreateHumusContainer();
+            //_planktonService = new PlanktonService(size);
+            //_bacteriaService = new BacteriaService();
         }
 
         void Start()
         {
             BuildWalls();
-            var i = 0;
+            /*var i = 0;
             for (var x = 0; x < size.x; x++)
             {
                 for (var y = 0; y < 1; y++)
@@ -49,14 +51,9 @@ namespace Aquarium
                         i++;
                     }
                 }
-            }
+            }*/
 
-            AddBacteria(new Vector3(size.x / 2, 0.5f, size.z / 2), Vector3.zero, 0, (int) 1e5);
-        }
-
-        void Update()
-        {
-            _humusContainer.ShareWithNeighbor(Time.deltaTime);
+            //AddBacteria(new Vector3(size.x / 2, 0.5f, size.z / 2), Vector3.zero, 0, (int) 1e5);
         }
 
         private void BuildWalls()
@@ -96,7 +93,7 @@ namespace Aquarium
         {
             var plankton = _planktonService.Create(position, rotation, energy, energy);
             plankton.gameObject.transform.SetParent(gameObject.transform);
-            _humusContainer.FindAt(plankton.gameObject.transform.position).ProvideHumus(energy);
+            //_humusContainer.FindAt(plankton.gameObject.transform.position).ProvideHumus(energy);
         }
 
         public void AddBacteria(Bacteria original)
@@ -119,9 +116,21 @@ namespace Aquarium
             bacteria.gameObject.transform.SetParent(gameObject.transform);
         }
 
-        public HumusCube GetHumusCubeAt(Vector3 position)
+        private HumusContainer CreateHumusContainer()
         {
-            return _humusContainer.FindAt(position);
+            var go = new GameObject("HumusContainer")
+            {
+                transform =
+                {
+                    localPosition = new Vector3(0, 0, 0),
+                    localRotation = Quaternion.Euler(0, 0, 0)
+                }
+            };
+
+            var container = go.AddComponent<HumusContainer>();
+            container.initialSize = size;
+            
+            return container;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Organism.Plankton
         protected override void Start()
         {
             base.Start();
-            _humusCube = _aquarium.GetHumusCubeAt(gameObject.transform.position);
+            //_humusCube = _aquarium.GetHumusCubeAt(gameObject.transform.position);
             rb.velocity = Vector3.zero;
         }
 
@@ -31,7 +31,7 @@ namespace Organism.Plankton
         {
             if (Speed > 0)
             {
-                _humusCube = _aquarium.GetHumusCubeAt(gameObject.transform.position);
+                // _humusCube = _aquarium.GetHumusCubeAt(gameObject.transform.position);
             }
             GainEnergy(_humusCube.ProvideHumus((int) (1e4 * Time.deltaTime)));
         }

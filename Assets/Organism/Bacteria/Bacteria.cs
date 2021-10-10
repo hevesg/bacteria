@@ -23,7 +23,7 @@ namespace Organism.Bacteria
         {
             if (Speed == 0)
             {
-                Jets(1e-4f * Mass, Random.Range(-1e-3f, 1e-3f) * Mass, false);
+                Jets(1e-4f * Mass, Random.Range(-1e-4f, 1e-4f) * Mass, false);
             }
             
         }
@@ -49,7 +49,7 @@ namespace Organism.Bacteria
         {
             base.Split();
             _aquarium.AddBacteria(this);
-            Jets(1e-4f * Mass, Random.Range(-1e-5f, 1e-5f) * Mass, false);
+            Jets(1e-4f * Mass, Random.Range(-1e-4f, 1e-4f) * Mass, false);
         }
     }
 }
