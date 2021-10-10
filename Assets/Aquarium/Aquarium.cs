@@ -42,7 +42,7 @@ namespace Aquarium
                             AddPlankton(
                                 new Vector3(x + 0.5f, y + 0.5f, z + 0.5f),
                                 new Vector3(0, Random.Range(-180f, 180f), 0),
-                                0, (int) 10e3
+                                (int) 5e4
                             );
                         }
 
@@ -92,10 +92,25 @@ namespace Aquarium
             plankton.Jets(10f, Random.Range(-100f, 100f), false);
         }
 
-        private void AddPlankton(Vector3 position, Vector3 rotation, int energy, int mass)
+        private void AddPlankton(Vector3 position, Vector3 rotation, int energy)
         {
-            var plankton = _planktonService.Create(position, rotation, energy, mass);
+            var plankton = _planktonService.Create(position, rotation, energy, energy);
             plankton.gameObject.transform.SetParent(gameObject.transform);
+            _humusContainer.FindAt(plankton.gameObject.transform.position).ProvideHumus(energy);
+        }
+
+        public void AddBacteria(Bacteria original)
+        {
+            var originalTransform = original.gameObject.transform;
+            var originalPosition = originalTransform.position;
+            var originalRotation = originalTransform.rotation.eulerAngles;
+            var position = new Vector3(originalPosition.x + 0.05f, originalPosition.y, originalPosition.z + 0.05f);
+            var rotation = new Vector3(originalRotation.x, originalRotation.y - 180f, originalRotation.z);
+            var bacteria = _bacteriaService.Create(
+                position, rotation, original.Energy, original.Mass
+            );
+            bacteria.gameObject.transform.SetParent(gameObject.transform);
+            bacteria.Jets(10f, Random.Range(-100f, 100f), false);
         }
 
         private void AddBacteria(Vector3 position, Vector3 rotation, int energy, int mass)

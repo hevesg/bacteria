@@ -34,7 +34,7 @@ namespace Organism.Bacteria
             if (go.name == "Plankton")
             {
                 var plankton = go.GetComponent<Plankton.Plankton>();
-                GainEnergy(plankton.EnergyConsumed);
+                GainEnergy(plankton.Mass);
                 Destroy(go);
             }
         }
@@ -43,6 +43,13 @@ namespace Organism.Bacteria
         {
             var scale = Mathf.Pow((3 * rb.mass) / (8 * Mathf.PI), 1f / 3f);
             gameObject.transform.localScale = new Vector3(scale, scale, scale);
+        }
+        
+        protected override void Split()
+        {
+            base.Split();
+            _aquarium.AddBacteria(this);
+            Jets(1e-4f * Mass, Random.Range(-1e-5f, 1e-5f) * Mass, false);
         }
     }
 }
