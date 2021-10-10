@@ -50,7 +50,7 @@ namespace Humus
                 {
                     for (var z = 0; z < _size.z; z++)
                     {
-                        _humusCubes.Add(new HumusCube((int) 10e5, new Vector3Int(x, y, z)));
+                        _humusCubes.Add(new HumusCube((int) 1e5, new Vector3Int(x, y, z)));
                     }
                 }
             }

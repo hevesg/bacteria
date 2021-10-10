@@ -17,7 +17,7 @@ namespace Organism.Plankton
         protected override void Awake()
         {
             base.Awake();
-            _splitMass = (int) 10e5;
+            _splitMass = (int) 1e5;
         }
 
         protected override void Start()
@@ -33,14 +33,14 @@ namespace Organism.Plankton
             {
                 _humusCube = _aquarium.GetHumusCubeAt(gameObject.transform.position);
             }
-            GainEnergy(_humusCube.ProvideHumus((int) (10e4 * Time.deltaTime)));
+            GainEnergy(_humusCube.ProvideHumus((int) (1e4 * Time.deltaTime)));
         }
 
         protected override void Split()
         {
             base.Split();
             _aquarium.AddPlankton(this);
-            Jets(10f, Random.Range(-100f, 100f), false);
+            Jets(10f, Random.Range(-10f, 10f), false);
         }
 
     }

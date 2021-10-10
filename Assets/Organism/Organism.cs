@@ -20,10 +20,10 @@ namespace Organism
 
         public int Mass
         {
-            get => (int) (rb.mass * 10e6);
+            get => (int) (rb.mass * 1e6);
             set
             {
-                rb.mass = (float) (value / 10e6);
+                rb.mass = (float) (value / 1e6);
             }
         }
         
@@ -45,6 +45,7 @@ namespace Organism
         }
         protected virtual void Awake()
         {
+            Application.targetFrameRate = 60;
             rb = gameObject.GetComponent<Rigidbody>();
             _energyConsumed = 0;
         }
