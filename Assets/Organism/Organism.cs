@@ -5,12 +5,14 @@ namespace Organism
     abstract public class Organism : MonoBehaviour
     {
         protected Aquarium.Aquarium _aquarium;
-        
-        protected int _energy;
-        protected int _energyConsumed;
+
+        public int initialEnergy;
+        private int _energy;
+        private int _energyConsumed;
         protected int _splitMass;
         
-        protected Rigidbody rb;
+        protected GameObject _body;
+        protected Rigidbody _rigidbody;
 
         public int Energy
         {
@@ -20,18 +22,28 @@ namespace Organism
 
         public int Mass
         {
-            get => (int) (rb.mass * 1e6);
-            set
-            {
-                rb.mass = (float) (value / 1e6);
-            }
+            get => (int) (_rigidbody.mass * 1e6);
+            set => _rigidbody.mass = (float) (value / 1e6);
         }
         
         public int EnergyConsumed => _energyConsumed;
 
-        public float Speed => rb.velocity.magnitude;
+        public float Speed => _rigidbody.velocity.magnitude;
 
         public float Rotation => gameObject.transform.rotation.eulerAngles.y;
+
+        protected virtual void Awake()
+        {
+            _energyConsumed = 0;
+            initialEnergy = 0;
+        }
+
+        protected virtual void Start()
+        {
+            _energy = initialEnergy;
+            _aquarium = gameObject.transform.parent.gameObject.GetComponent<Aquarium.Aquarium>();
+            UpdateBody();
+        }
 
         public void Jets(float force, float torque, bool useEnergy = true)
         {
@@ -40,27 +52,9 @@ namespace Organism
              BurnEnergy((int) (force + Mathf.Abs(torque)));   
             } 
             var rotationInRads = Mathf.Deg2Rad * Rotation;
-            rb.AddForce(new Vector3(Mathf.Cos(rotationInRads) * force, 0, -Mathf.Sin(rotationInRads) * force));
-            rb.AddTorque(new Vector3(0, torque, 0));
+            _rigidbody.AddForce(new Vector3(Mathf.Cos(rotationInRads) * force, 0, -Mathf.Sin(rotationInRads) * force));
+            _rigidbody.AddTorque(new Vector3(0, torque, 0));
         }
-        protected virtual void Awake()
-        {
-            Application.targetFrameRate = 60;
-            rb = gameObject.GetComponent<Rigidbody>();
-            _energyConsumed = 0;
-        }
-
-        protected virtual void Start()
-        {
-            _aquarium = gameObject.transform.parent.gameObject.GetComponent<Aquarium.Aquarium>();
-            UpdateBody();
-        }
-
-        void Update()
-        {
-        
-        }
-
         protected void GainEnergy(int energy)
         {
             _energy += energy;

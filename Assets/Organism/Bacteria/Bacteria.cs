@@ -15,7 +15,7 @@ namespace Organism.Bacteria
         protected override void Start()
         {
             base.Start();
-            rb.velocity = Vector3.zero;
+            _rigidbody.velocity = Vector3.zero;
             Debug.Log(Mass);
         }
 
@@ -41,7 +41,7 @@ namespace Organism.Bacteria
 
         protected override void UpdateBody()
         {
-            var scale = Mathf.Pow((3 * rb.mass) / (8 * Mathf.PI), 1f / 3f);
+            var scale = Mathf.Pow((3 * _rigidbody.mass) / (8 * Mathf.PI), 1f / 3f);
             gameObject.transform.localScale = new Vector3(scale, scale, scale);
         }
         

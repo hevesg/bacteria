@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Humus
@@ -18,18 +20,29 @@ namespace Humus
             _size = initialSize;
             for (var x = 0; x < _size.x; x++) 
             {
-                for (var y = 0; y < 1; y++)
+                for (var y = 0; y < _size.y; y++)
                 {
                     for (var z = 0; z < _size.z; z++)
                     {
-                        var humusCube = Create(new Vector3(x, y, z), (int) 1e6);
-                        humusCube.transform.SetParent(gameObject.transform);
+                        Add(new Vector3(x, y, z), (int) 1e6);
                     }
                 }
             }
         }
 
-        private GameObject Create(Vector3 position, int quantity)
+        public GameObject[] GetRandomCubes(int count)
+        {
+            var gameObjects = new GameObject[count];
+            var list = Enumerable.Range(0, gameObject.transform.childCount - 1).ToList();
+            list.Sort((a, b)=> 1 - 2 * Random.Range(0, 1));
+            for (var i = 0; i < count; i++)
+            {
+                gameObjects[i] = gameObject.transform.GetChild(list[i]).gameObject;
+            }
+            return gameObjects;
+        }
+
+        private void Add(Vector3 position, int quantity)
         {
             var go = new GameObject("Humus")
             {
@@ -41,7 +54,8 @@ namespace Humus
             };
             var humusCube = go.AddComponent<HumusCube>();
             humusCube.initialQuantity = quantity;
-            return go;
+            
+            go.transform.SetParent(gameObject.transform);
         }
     }
 }
