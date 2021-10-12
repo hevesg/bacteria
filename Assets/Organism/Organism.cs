@@ -4,8 +4,6 @@ namespace Organism
 {
     abstract public class Organism : MonoBehaviour
     {
-        protected Aquarium.Aquarium _aquarium;
-
         public int initialEnergy;
         private int _energy;
         private int _energyConsumed;
@@ -38,13 +36,6 @@ namespace Organism
             initialEnergy = 0;
         }
 
-        protected virtual void Start()
-        {
-            _energy = initialEnergy;
-            _aquarium = gameObject.transform.parent.gameObject.GetComponent<Aquarium.Aquarium>();
-            UpdateBody();
-        }
-
         public void Jets(float force, float torque, bool useEnergy = true)
         {
             if (useEnergy)
@@ -55,6 +46,14 @@ namespace Organism
             _rigidbody.AddForce(new Vector3(Mathf.Cos(rotationInRads) * force, 0, -Mathf.Sin(rotationInRads) * force));
             _rigidbody.AddTorque(new Vector3(0, torque, 0));
         }
+
+        public void Initialize(int energy)
+        {
+            _energy += energy;
+            Mass = _energy;
+            UpdateBody();
+        }
+        
         protected void GainEnergy(int energy)
         {
             _energy += energy;

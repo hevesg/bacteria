@@ -6,6 +6,7 @@ namespace Organism.Plankton
     public class Plankton : Organism
     {
         private HumusCube _humusCube;
+        private PlanktonContainer _container;
 
         protected override void UpdateBody()
         {
@@ -27,7 +28,7 @@ namespace Organism.Plankton
             _rigidbody = gameObject.AddComponent<Rigidbody>();
             _rigidbody.useGravity = false;
             _rigidbody.drag = 1;
-            _rigidbody.angularDrag = 2;
+            _rigidbody.angularDrag = 1;
             _rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
             _rigidbody.centerOfMass = Vector3.zero;
             _rigidbody.inertiaTensorRotation = Quaternion.identity;
@@ -35,26 +36,40 @@ namespace Organism.Plankton
             _rigidbody.detectCollisions = true;
         }
 
-        protected override void Start()
+        protected void Start()
         {
-            base.Start();
+            _container = gameObject.transform.parent.GetComponent<PlanktonContainer>();
             _rigidbody.velocity = Vector3.zero;
+            Jets(1e1f, 0, false);
         }
 
         void Update()
         {
-            if (Speed > 0)
+            // Debug.Log(_humusCube.Quantity);
+            if (_humusCube != null)
             {
-                // _humusCube = _aquarium.GetHumusCubeAt(gameObject.transform.position);
+                GainEnergy(_humusCube.ProvideHumus((int) (1e4 * Time.deltaTime)));
             }
-            GainEnergy(_humusCube.ProvideHumus((int) (1e4 * Time.deltaTime)));
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.name == "Humus")
+            {
+                var humusCube = other.gameObject.GetComponent<HumusCube>();
+                if (_humusCube)
+                {
+                    _humusCube.TransferQuantityTo(humusCube, (int) (Speed * Mass / 1e2));
+                }
+                _humusCube = humusCube;
+            }
         }
 
         protected override void Split()
         {
             base.Split();
-            _aquarium.AddPlankton(this);
-            Jets(10f, Random.Range(-10f, 10f), false);
+            _container.Add(this);
+            Jets(1e1f, Random.Range(-1e2f, 1e2f), false);
         }
 
     }

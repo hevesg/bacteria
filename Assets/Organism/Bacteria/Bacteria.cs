@@ -1,7 +1,4 @@
-using System;
 using UnityEngine;
-using Object = System.Object;
-using Random = UnityEngine.Random;
 
 namespace Organism.Bacteria
 {
@@ -12,9 +9,8 @@ namespace Organism.Bacteria
             base.Awake();
             _splitMass = (int) 1e6;
         }
-        protected override void Start()
+        protected void Start()
         {
-            base.Start();
             _rigidbody.velocity = Vector3.zero;
             Debug.Log(Mass);
         }
@@ -48,7 +44,6 @@ namespace Organism.Bacteria
         protected override void Split()
         {
             base.Split();
-            _aquarium.AddBacteria(this);
             Jets(1e-4f * Mass, Random.Range(-1e-4f, 1e-4f) * Mass, false);
         }
     }

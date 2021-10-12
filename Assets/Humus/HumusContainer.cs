@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -24,7 +23,7 @@ namespace Humus
                 {
                     for (var z = 0; z < _size.z; z++)
                     {
-                        Add(new Vector3(x, y, z), (int) 1e6);
+                        Add(new Vector3(x, y, z), (int) 1e5);
                     }
                 }
             }

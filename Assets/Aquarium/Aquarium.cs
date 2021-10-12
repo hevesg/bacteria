@@ -80,25 +80,6 @@ namespace Aquarium
             return _humusContainer.GetRandomCubes(count);
         }
 
-        public void AddPlankton(Plankton original)
-        {
-            var originalTransform = original.gameObject.transform;
-            var originalPosition = originalTransform.position;
-            var originalRotation = originalTransform.rotation.eulerAngles;
-            var position = new Vector3(originalPosition.x + 0.05f, originalPosition.y, originalPosition.z + 0.05f);
-            var rotation = new Vector3(originalRotation.x, originalRotation.y - 180f, originalRotation.z);
-            var plankton = _planktonContainer.Add(
-                position, rotation, original.Energy
-            );
-            plankton.gameObject.transform.SetParent(gameObject.transform);
-            //plankton.Jets(10f, Random.Range(-100f, 100f), false);
-        }
-
-        private void AddPlankton(Vector3 position, Vector3 rotation, int energy)
-        {
-            var plankton = _planktonContainer.Add(position, rotation, energy);
-        }
-
         public void AddBacteria(Bacteria original)
         {
             var originalTransform = original.gameObject.transform;
