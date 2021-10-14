@@ -1,11 +1,9 @@
-using Humus;
 using UnityEngine;
 
 namespace Organism.Plankton
 {
     public class Plankton : Organism
     {
-        private HumusCube _humusCube;
         private PlanktonContainer _container;
 
         protected override void UpdateBody()
@@ -48,19 +46,6 @@ namespace Organism.Plankton
             if (_humusCube != null)
             {
                 GainEnergy(_humusCube.ProvideHumus((int) (1e4 * Time.deltaTime)));
-            }
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.name == "Humus")
-            {
-                var humusCube = other.gameObject.GetComponent<HumusCube>();
-                if (_humusCube)
-                {
-                    _humusCube.TransferQuantityTo(humusCube, (int) (Speed * Mass / 1e2f));
-                }
-                _humusCube = humusCube;
             }
         }
 

@@ -1,3 +1,4 @@
+using Humus;
 using UnityEngine;
 
 namespace Organism
@@ -5,6 +6,7 @@ namespace Organism
     abstract public class Organism : MonoBehaviour
     {
         public int initialEnergy;
+        protected HumusCube _humusCube;
         private int _energy;
         private int _energyConsumed;
         protected int _splitMass;
@@ -34,6 +36,11 @@ namespace Organism
         {
             _energyConsumed = 0;
             initialEnergy = 0;
+        }
+        
+        private void OnTriggerEnter(Collider other)
+        {
+            TranferQuantity(other);
         }
 
         public void Jets(float force, float torque, bool useEnergy = true)
@@ -89,6 +96,19 @@ namespace Organism
         protected virtual void Split() {
             _energy /= 2;
             Mass /= 2;
+        }
+
+        protected void TranferQuantity(Collider other)
+        {
+            if (other.gameObject.name == "Humus")
+            {
+                var humusCube = other.gameObject.GetComponent<HumusCube>();
+                if (_humusCube)
+                {
+                    _humusCube.TransferQuantityTo(humusCube, (int) (Speed * Mass / 1e2f));
+                }
+                _humusCube = humusCube;
+            }
         }
 
         public void Kill()

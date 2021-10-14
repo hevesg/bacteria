@@ -33,7 +33,7 @@ namespace Humus
         {
             var gameObjects = new GameObject[count];
             var list = Enumerable.Range(0, gameObject.transform.childCount - 1).ToList();
-            list.Sort((a, b)=> 1 - 2 * Random.Range(0, 1));
+            list.Sort((a, b)=> Random.Range(-1, 1));
             for (var i = 0; i < count; i++)
             {
                 gameObjects[i] = gameObject.transform.GetChild(list[i]).gameObject;
