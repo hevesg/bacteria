@@ -91,5 +91,12 @@ namespace Organism
             Mass /= 2;
         }
 
+        public void Kill()
+        {
+            Destroy(gameObject);
+            Destroy(_rigidbody);
+            Destroy(this);
+        }
+
     }
 }

@@ -45,7 +45,6 @@ namespace Organism.Plankton
 
         void Update()
         {
-            // Debug.Log(_humusCube.Quantity);
             if (_humusCube != null)
             {
                 GainEnergy(_humusCube.ProvideHumus((int) (1e4 * Time.deltaTime)));
@@ -59,7 +58,7 @@ namespace Organism.Plankton
                 var humusCube = other.gameObject.GetComponent<HumusCube>();
                 if (_humusCube)
                 {
-                    _humusCube.TransferQuantityTo(humusCube, (int) (Speed * Mass / 1e2));
+                    _humusCube.TransferQuantityTo(humusCube, (int) (Speed * Mass / 1e2f));
                 }
                 _humusCube = humusCube;
             }

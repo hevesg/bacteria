@@ -66,7 +66,6 @@ namespace Humus
         public void TransferQuantityTo(HumusCube other, int quantity)
         {
             var transfer = (quantity > Quantity) ? Quantity : quantity;
-            Debug.Log(transfer);
             Quantity -= transfer;
             other.Quantity += transfer;
         } 

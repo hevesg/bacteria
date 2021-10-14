@@ -415,6 +415,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3529676976038815217, guid: 39a4cda985983492d87f49e5b0b54c22, type: 3}
     - target: {fileID: 1286376002600648725, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
+      propertyPath: initialBacteria
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1286376002600648725, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
+      propertyPath: initialPlankton
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1286376002600648725, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
       propertyPath: initialPlanktons
       value: 20
       objectReference: {fileID: 0}
