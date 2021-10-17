@@ -11,6 +11,7 @@ namespace Humus
 
         private void Awake()
         {
+            gameObject.name = "Humus";
             initialQuantity = (int) 1e5;
             _particles = GetComponent<ParticleSystem>();
             _neighbours = new List<HumusCube>();
@@ -19,14 +20,19 @@ namespace Humus
         private void Start()
         {
             Quantity = initialQuantity;
-            UpdateMaterial();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
-            var neighbour = GetRandomNeighbour();
-            if (!neighbour) return;
-            TransferQuantityTo(neighbour, (int) (1e4 * Time.deltaTime));
+            foreach (var neighbour in _neighbours)
+            {
+                var delta = Quantity - neighbour.Quantity;
+                if (delta > 0)
+                {
+                    TransferQuantityTo(neighbour, (int) (delta * Time.deltaTime));
+                }
+            }
+            UpdateMaterial();
         }
 
         public int Quantity { get;  set; }
@@ -38,11 +44,9 @@ namespace Humus
             {
                 var availability = Quantity;
                 Quantity = 0;
-                UpdateMaterial();
                 return availability;
             }
             Quantity -= quantity;
-            UpdateMaterial();
             return quantity;
         }
 

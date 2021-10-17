@@ -53,7 +53,7 @@ namespace Organism.Plankton
         {
             base.Split();
             _container.Add(this);
-            Jets(1e0f, Random.Range(-1e2f, 1e2f), false);
+            Jets(1e1f, Random.Range(-1e2f, 1e2f), false);
         }
 
     }

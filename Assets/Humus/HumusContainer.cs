@@ -7,7 +7,7 @@ namespace Humus
     public class HumusContainer : MonoBehaviour
     {
         public Vector3Int initialSize;
-        public GameObject childObject;
+        public GameObject childObject;  // prefab
         private Vector3Int _size;
         private Dictionary<Vector3Int, HumusCube> _dictionary;
 
@@ -27,10 +27,10 @@ namespace Humus
                     for (var z = 0; z < _size.z; z++)
                     {
                         _dictionary.Add(new Vector3Int(x, y, z), Add(new Vector3(x, y, z), (int) 1e5));
+                        
                     }
                 }
             }
-
             AllocateNeighbors();
         }
 
@@ -49,8 +49,7 @@ namespace Humus
         private HumusCube Add(Vector3 position, int quantity)
         {
             var go = Instantiate(childObject, position, Quaternion.identity);
-            go.name = "Humus";
-            var humusCube = go.AddComponent<HumusCube>();
+            var humusCube = go.GetComponent<HumusCube>();
             humusCube.initialQuantity = quantity;
             go.transform.SetParent(gameObject.transform);
             return humusCube;
