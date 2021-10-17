@@ -11,8 +11,8 @@ namespace Organism.Bacteria
         {
             initialBacteria = 1;
         }
-        
-        private void Start()
+
+        public void Initialize()
         {
             _aquarium = gameObject.GetComponentInParent<Aquarium.Aquarium>();
             
@@ -22,7 +22,8 @@ namespace Organism.Bacteria
                 var position = new Vector3(cubePosition.x + 0.5f, cubePosition.y + 0.5f, cubePosition.z + 0.5f);
                 Add(position, new Vector3(0, Random.Range(-180f, 180f), 0),
                     (int) 5e5);
-            }}
+            }
+        }
         
         public GameObject Add(Vector3 position, Vector3 rotation, int energy = 0)
         {

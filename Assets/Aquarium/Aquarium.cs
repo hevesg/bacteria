@@ -25,36 +25,14 @@ namespace Aquarium
         {
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
-            _humusContainer = AddHumusContainer();
-            _planktonContainer = AddPlanktonContainer();
-            _bacteriaContainer = AddBacteriaContainer();
         }
 
         void Start()
         {
             BuildWalls();
-            /*var i = 0;
-            for (var x = 0; x < size.x; x++)
-            {
-                for (var y = 0; y < 1; y++)
-                {
-                    for (var z = 0; z < size.z; z++)
-                    {
-                        if (i % 3 == 0)
-                        {
-                            AddPlankton(
-                                new Vector3(x + 0.5f, y + 0.5f, z + 0.5f),
-                                new Vector3(0, Random.Range(-180f, 180f), 0),
-                                (int) 5e4
-                            );
-                        }
-
-                        i++;
-                    }
-                }
-            }*/
-
-            //AddBacteria(new Vector3(size.x / 2, 0.5f, size.z / 2), Vector3.zero, 0, (int) 1e5);
+            BuildHumusContainer();
+            BuildPlanktonContainer();
+            BuildBacteriaContainer();
         }
 
         private void BuildWalls()
@@ -76,60 +54,30 @@ namespace Aquarium
             _westernWall.transform.position = new Vector3(0, 0, size.z);
         }
 
+        private void BuildHumusContainer()
+        {
+            _humusContainer = GameObject.Find("HumusContainer").GetComponent<HumusContainer>();
+            _humusContainer.initialSize = size;
+            _humusContainer.Initialize();
+        }
+
+        private void BuildPlanktonContainer()
+        {
+            _planktonContainer = GameObject.Find("PlanktonContainer").GetComponent<PlanktonContainer>();
+            _planktonContainer.initialPlankton = initialPlankton;
+            _planktonContainer.Initialize();
+        }
+
+        private void BuildBacteriaContainer()
+        {
+            _bacteriaContainer = GameObject.Find("BacteriaContainer").GetComponent<BacteriaContainer>();
+            _bacteriaContainer.initialBacteria = initialBacteria;
+            _bacteriaContainer.Initialize();
+        }
+
         public GameObject[] GetRandomCubes(int count)
         {
             return _humusContainer.GetRandomCubes(count);
-        }
-
-        private HumusContainer AddHumusContainer()
-        {
-            var go = new GameObject("HumusContainer")
-            {
-                transform =
-                {
-                    localPosition = new Vector3(0, 0, 0),
-                    localRotation = Quaternion.Euler(0, 0, 0)
-                }
-            };
-
-            var container = go.AddComponent<HumusContainer>();
-            container.initialSize = size;
-            go.transform.SetParent(gameObject.transform);
-            return container;
-        }
-        
-        private PlanktonContainer AddPlanktonContainer()
-        {
-            var go = new GameObject("PlanktonContainer")
-            {
-                transform =
-                {
-                    localPosition = new Vector3(0, 0, 0),
-                    localRotation = Quaternion.Euler(0, 0, 0)
-                }
-            };
-
-            var container = go.AddComponent<PlanktonContainer>();
-            container.initialPlankton = initialPlankton;
-            go.transform.SetParent(gameObject.transform);
-            return container;
-        }
-        
-        private BacteriaContainer AddBacteriaContainer()
-        {
-            var go = new GameObject("BacteriaContainer")
-            {
-                transform =
-                {
-                    localPosition = new Vector3(0, 0, 0),
-                    localRotation = Quaternion.Euler(0, 0, 0)
-                }
-            };
-
-            var container = go.AddComponent<BacteriaContainer>();
-            container.initialBacteria = initialBacteria;
-            go.transform.SetParent(gameObject.transform);
-            return container;
         }
     }
 }

@@ -470,6 +470,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2934722392418399798, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817624504130494380, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6501703610502172555, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
       propertyPath: m_Name
       value: Aquarium

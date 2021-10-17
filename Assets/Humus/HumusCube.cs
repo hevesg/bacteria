@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Humus
@@ -5,35 +6,14 @@ namespace Humus
     public class HumusCube : MonoBehaviour
     {
         public int initialQuantity;
-        private GameObject _body;
-        private Material _material;
+        private ParticleSystem _particles;
+        private List<HumusCube> _neighbours;
 
         private void Awake()
         {
             initialQuantity = (int) 1e5;
-            
-            _body = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            _body.name = "Body";
-            _body.transform.SetParent(gameObject.transform);
-            _body.transform.localPosition = new Vector3(0.5f, 0.5f, 0.5f);
-            _body.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            _body.transform.localScale = new Vector3(1, 1, 1);
-            
-            Destroy(_body.GetComponent<BoxCollider>());
-            var col = gameObject.AddComponent<BoxCollider>();
-            col.isTrigger = true;
-
-            _material = new Material(Shader.Find("Standard"));
-            _material.SetFloat("_Mode", 2f);
-            _material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            _material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            _material.SetInt("_ZWrite", 0);
-            _material.DisableKeyword("_ALPHATEST_ON");
-            _material.EnableKeyword("_ALPHABLEND_ON");
-            _material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-            _material.renderQueue = 3000;
-            _material.color = Color.black;
-            _body.GetComponent<Renderer>().material = _material;
+            _particles = GetComponent<ParticleSystem>();
+            _neighbours = new List<HumusCube>();
         }
 
         private void Start()
@@ -42,8 +22,16 @@ namespace Humus
             UpdateMaterial();
         }
 
+        private void Update()
+        {
+            var neighbour = GetRandomNeighbour();
+            if (!neighbour) return;
+            TransferQuantityTo(neighbour, (int) (1e4 * Time.deltaTime));
+        }
+
         public int Quantity { get;  set; }
-        
+        public List<HumusCube> Neighbours => _neighbours;
+
         public int ProvideHumus(int quantity)
         {
             if (quantity > Quantity)
@@ -60,7 +48,7 @@ namespace Humus
 
         private void UpdateMaterial()
         {
-            _material.color = new Color(0, 0, 0, (float) Quantity / (float) 1e6);
+            _particles.startColor = new Color(0, 0, 0, (float) Quantity / (float) 1e6);
         }
 
         public void TransferQuantityTo(HumusCube other, int quantity)
@@ -68,6 +56,20 @@ namespace Humus
             var transfer = (quantity > Quantity) ? Quantity : quantity;
             Quantity -= transfer;
             other.Quantity += transfer;
-        } 
+        }
+
+        public void AddNeighbor(HumusCube neighbour)
+        {
+            _neighbours.Add(neighbour);
+        }
+
+        private HumusCube GetRandomNeighbour()
+        {
+            if (_neighbours.Count > 0)
+            {
+                return _neighbours[Random.Range(0, _neighbours.Count)];
+            }
+            return null;
+        }
     }
 }

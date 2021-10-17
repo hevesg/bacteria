@@ -12,7 +12,7 @@ namespace Organism.Plankton
             initialPlankton = 1;
         }
 
-        private void Start()
+        public void Initialize()
         {
             _aquarium = gameObject.GetComponentInParent<Aquarium.Aquarium>();
             
@@ -53,7 +53,7 @@ namespace Organism.Plankton
             var plankton = Add(
                 position, rotation, original.Energy
             );
-            plankton.GetComponent<Plankton>().Jets(10f, Random.Range(-100f, 100f), false);
+            plankton.GetComponent<Plankton>().Jets(1f, Random.Range(-100f, 100f), false);
             return plankton;
         }
     }

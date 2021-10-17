@@ -65,7 +65,7 @@ namespace Organism.Bacteria
         protected override void Split()
         {
             base.Split();
-            _container.Add(this);
+            // _container.Add(this);
             Jets(1e-4f * Mass, Random.Range(-1e-4f, 1e-4f) * Mass, false);
         }
     }
