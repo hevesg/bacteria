@@ -37,7 +37,6 @@ namespace Organism.Bacteria
             };
 
             var plankton = go.AddComponent<Bacteria>();
-            plankton.Initialize(energy);
             
             go.transform.SetParent(gameObject.transform);
             return go;

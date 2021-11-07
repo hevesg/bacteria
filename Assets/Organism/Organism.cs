@@ -36,11 +36,18 @@ namespace Organism
         {
             _energyConsumed = 0;
             initialEnergy = 0;
+            _rigidbody = gameObject.GetComponent<Rigidbody>();
         }
-        
+
+        protected virtual void Start()
+        {
+            Debug.Log(Mass);
+            UpdateBody();
+        }
+
         private void OnTriggerEnter(Collider other)
         {
-            TranferQuantity(other);
+            TransferQuantity(other);
         }
 
         public void Jets(float force, float torque, bool useEnergy = true)
@@ -54,13 +61,6 @@ namespace Organism
             _rigidbody.AddTorque(new Vector3(0, torque, 0));
         }
 
-        public void Initialize(int energy)
-        {
-            _energy += energy;
-            Mass = _energy;
-            UpdateBody();
-        }
-        
         protected void GainEnergy(int energy)
         {
             _energy += energy;
@@ -98,7 +98,7 @@ namespace Organism
             Mass /= 2;
         }
 
-        protected void TranferQuantity(Collider other)
+        protected void TransferQuantity(Collider other)
         {
             if (other.gameObject.name == "Humus")
             {

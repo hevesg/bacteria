@@ -15,30 +15,15 @@ namespace Organism.Plankton
         protected override void Awake()
         {
             base.Awake();
+            gameObject.name = "Plankton";
             _splitMass = (int) 1e5;
-            
-            _body = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-            _body.name = "Body";
-            _body.transform.SetParent(gameObject.transform);
-            _body.transform.localPosition = Vector3.zero;
-            _body.transform.localRotation = Quaternion.Euler(0, 0, 90);
-
-            _rigidbody = gameObject.AddComponent<Rigidbody>();
-            _rigidbody.useGravity = false;
-            _rigidbody.drag = 1;
-            _rigidbody.angularDrag = 1;
-            _rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
-            _rigidbody.centerOfMass = Vector3.zero;
-            _rigidbody.inertiaTensorRotation = Quaternion.identity;
-            _rigidbody.isKinematic = false;
-            _rigidbody.detectCollisions = true;
         }
 
         protected void Start()
         {
+            base.Start();
             _container = gameObject.transform.parent.GetComponent<PlanktonContainer>();
             _rigidbody.velocity = Vector3.zero;
-            Jets(1e1f, 0, false);
         }
 
         void Update()

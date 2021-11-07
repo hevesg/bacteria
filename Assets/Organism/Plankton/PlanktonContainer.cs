@@ -5,6 +5,7 @@ namespace Organism.Plankton
     public class PlanktonContainer : MonoBehaviour
     {
         public int initialPlankton;
+        public GameObject childObject;
         protected Aquarium.Aquarium _aquarium;
         
         private void Awake()
@@ -27,18 +28,10 @@ namespace Organism.Plankton
 
         public GameObject Add(Vector3 position, Vector3 rotation, int energy = 0)
         {
-            var go = new GameObject("Plankton")
-            {
-                transform =
-                {
-                    localPosition = new Vector3(position.x, position.y, position.z),
-                    localRotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z)
-                }
-            };
-
-            var plankton = go.AddComponent<Plankton>();
-            plankton.Initialize(energy);
-            
+            var go = Instantiate(childObject, position, Quaternion.Euler(rotation));
+            var plankton = go.GetComponent<Plankton>();
+            plankton.initialEnergy = energy;
+            plankton.Mass = energy;
             go.transform.SetParent(gameObject.transform);
             return go;
         }
@@ -53,7 +46,7 @@ namespace Organism.Plankton
             var plankton = Add(
                 position, rotation, original.Energy
             );
-            plankton.GetComponent<Plankton>().Jets(1f, Random.Range(-100f, 100f), false);
+            plankton.GetComponent<Plankton>().Jets(1e1f, Random.Range(-100f, 100f), false);
             return plankton;
         }
     }

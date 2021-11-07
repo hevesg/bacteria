@@ -404,7 +404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1286376002600648725, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
       propertyPath: wallThickness
-      value: 1
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1286376002600648725, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
       propertyPath: planctonPrefab

@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialPlankton: 0
+  childObject: {fileID: 4235009725113306087, guid: 39a4cda985983492d87f49e5b0b54c22, type: 3}
 --- !u!1 &6501703610502172555
 GameObject:
   m_ObjectHideFlags: 0
