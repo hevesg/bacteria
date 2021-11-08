@@ -64,14 +64,14 @@ namespace Aquarium
         private void BuildPlanktonContainer()
         {
             _planktonContainer = GameObject.Find("PlanktonContainer").GetComponent<PlanktonContainer>();
-            _planktonContainer.initialPlankton = initialPlankton;
+            _planktonContainer.initialChildren = initialPlankton;
             _planktonContainer.Initialize();
         }
 
         private void BuildBacteriaContainer()
         {
             _bacteriaContainer = GameObject.Find("BacteriaContainer").GetComponent<BacteriaContainer>();
-            _bacteriaContainer.initialBacteria = initialBacteria;
+            _bacteriaContainer.initialChildren = initialBacteria;
             _bacteriaContainer.Initialize();
         }
 
