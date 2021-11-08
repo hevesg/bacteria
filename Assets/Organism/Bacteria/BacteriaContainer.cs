@@ -5,6 +5,7 @@ namespace Organism.Bacteria
     public class BacteriaContainer : MonoBehaviour
     {
         public int initialBacteria;
+        public GameObject childObject;
         protected Aquarium.Aquarium _aquarium;
 
         private void Awake()
@@ -27,17 +28,10 @@ namespace Organism.Bacteria
         
         public GameObject Add(Vector3 position, Vector3 rotation, int energy = 0)
         {
-            var go = new GameObject("Bacteria")
-            {
-                transform =
-                {
-                    localPosition = new Vector3(position.x, position.y, position.z),
-                    localRotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z)
-                }
-            };
-
-            var plankton = go.AddComponent<Bacteria>();
-            
+            var go = Instantiate(childObject, position, Quaternion.Euler(rotation));
+            var bacteria = go.GetComponent<Bacteria>();
+            bacteria.initialEnergy = energy;
+            bacteria.Mass = energy;
             go.transform.SetParent(gameObject.transform);
             return go;
         }

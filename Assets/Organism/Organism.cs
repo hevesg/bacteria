@@ -41,7 +41,6 @@ namespace Organism
 
         protected virtual void Start()
         {
-            Debug.Log(Mass);
             UpdateBody();
         }
 

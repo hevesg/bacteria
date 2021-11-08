@@ -19,7 +19,7 @@ namespace Organism.Plankton
             _splitMass = (int) 1e5;
         }
 
-        protected void Start()
+        protected override void Start()
         {
             base.Start();
             _container = gameObject.transform.parent.GetComponent<PlanktonContainer>();
