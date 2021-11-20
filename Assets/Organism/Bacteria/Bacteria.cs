@@ -5,10 +5,12 @@ namespace Organism.Bacteria
     public class Bacteria : Organism
     {
         private BacteriaContainer _container;
+        private float _timeRemaining;
 
         protected override void Awake()
         {
             base.Awake();
+            _timeRemaining = 0;
             gameObject.name = "Bacteria";
             _splitMass = (int) 1e6;
         }
@@ -21,9 +23,11 @@ namespace Organism.Bacteria
 
         protected void Update()
         {
-            if (Speed == 0)
+            _timeRemaining -= Time.deltaTime;
+            if (_timeRemaining <= 0)
             {
-                Jets(1e-4f * Mass, Random.Range(-1e-4f, 1e-4f) * Mass, false);
+                _timeRemaining = 5f;
+                Jets(1e-3f * Mass, Random.Range(-1e-5f, 1e-5f) * Mass, false);
             }
             
         }
@@ -35,7 +39,7 @@ namespace Organism.Bacteria
             {
                 var plankton = go.GetComponent<Plankton.Plankton>();
                 GainEnergy(plankton.Mass);
-                plankton.Kill();
+                plankton.Dies();
             }
         }
 

@@ -88,7 +88,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6067a7fdd2414d76bc43a65378fc620d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialBacteria: 0
+  initialChildren: 0
+  childPrefab: {fileID: 7449581883864938261, guid: 86c92403f61f94344b8becb28503e59f, type: 3}
 --- !u!1 &4872867588097200522
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,8 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa32eeddf88a4293af1a14063bd24d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialPlankton: 0
-  childObject: {fileID: 4235009725113306087, guid: 39a4cda985983492d87f49e5b0b54c22, type: 3}
+  initialChildren: 0
+  childPrefab: {fileID: 4235009725113306087, guid: 39a4cda985983492d87f49e5b0b54c22, type: 3}
 --- !u!1 &6501703610502172555
 GameObject:
   m_ObjectHideFlags: 0

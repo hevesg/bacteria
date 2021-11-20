@@ -5,7 +5,7 @@ namespace Organism
     public abstract class OrganismContainer<T> : MonoBehaviour where T : Organism
     {
         public int initialChildren;
-        public GameObject childObject;
+        public GameObject childPrefab;
         protected Aquarium.Aquarium _aquarium;
 
         protected void Awake()
@@ -26,9 +26,9 @@ namespace Organism
             }
         }
         
-        public GameObject Add(Vector3 position, Vector3 rotation, int energy = 0)
+        public GameObject Add(Vector3 position, Vector3 rotation, int energy)
         {
-            var go = Instantiate(childObject, position, Quaternion.Euler(rotation));
+            var go = Instantiate(childPrefab, position, Quaternion.Euler(rotation));
             var organism = go.GetComponent<T>();
             organism.initialEnergy = energy;
             organism.Mass = energy;

@@ -386,6 +386,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 843785709633397754, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
+      propertyPath: childObject
+      value: 
+      objectReference: {fileID: 7449581883864938261, guid: 86c92403f61f94344b8becb28503e59f, type: 3}
     - target: {fileID: 1286376002600648725, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
       propertyPath: size.x
       value: 10
@@ -416,7 +420,7 @@ PrefabInstance:
       objectReference: {fileID: 3529676976038815217, guid: 39a4cda985983492d87f49e5b0b54c22, type: 3}
     - target: {fileID: 1286376002600648725, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
       propertyPath: initialBacteria
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1286376002600648725, guid: 056936fc028be46b7bd3a0745188f7a9, type: 3}
       propertyPath: initialPlankton

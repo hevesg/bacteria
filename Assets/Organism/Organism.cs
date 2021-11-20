@@ -110,7 +110,7 @@ namespace Organism
             }
         }
 
-        public void Kill()
+        public void Dies()
         {
             Destroy(gameObject);
             Destroy(_rigidbody);
