@@ -25,13 +25,21 @@ namespace Organism
                     (int) 5e4);
             }
         }
-        
-        public GameObject Add(Vector3 position, Vector3 rotation, int energy)
+
+        public GameObject Get(int energy)
         {
-            var go = Instantiate(childPrefab, position, Quaternion.Euler(rotation));
+            var go = Instantiate(childPrefab, Vector3.zero, Quaternion.identity);
             var organism = go.GetComponent<T>();
             organism.initialEnergy = energy;
             organism.Mass = energy;
+            return go;
+        }
+        
+        public GameObject Add(Vector3 position, Vector3 rotation, int energy)
+        {
+            var go = Get(energy);
+            go.transform.localPosition = position;
+            go.transform.localRotation = Quaternion.Euler(rotation);
             go.transform.SetParent(gameObject.transform);
             return go;
         }
@@ -39,14 +47,14 @@ namespace Organism
         public GameObject Add(T original)
         {
             var originalTransform = original.gameObject.transform;
-            var originalPosition = originalTransform.position;
             var originalRotation = originalTransform.rotation.eulerAngles;
-            var position = new Vector3(originalPosition.x + 0.05f, originalPosition.y, originalPosition.z + 0.05f);
-            var rotation = new Vector3(originalRotation.x, originalRotation.y - 180f, originalRotation.z);
-            var organism = Add(
-                position, rotation, original.Energy
-            );
-            organism.GetComponent<T>().Jets(1e1f, Random.Range(-100f, 100f), false);
+            var organism = Get(original.Energy);
+            organism.transform.parent = original.transform;
+            organism.transform.localPosition = Vector3.back;
+            organism.transform.localRotation = Quaternion.identity;
+            organism.transform.SetParent(gameObject.transform);
+            
+            organism.GetComponent<T>().Jets(0, Random.Range(-1e1f, 1e1f), false);
             return organism;
         }
     }

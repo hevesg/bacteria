@@ -1,3 +1,4 @@
+using System.Collections;
 using Humus;
 using UnityEngine;
 
@@ -5,14 +6,21 @@ namespace Organism
 {
     abstract public class Organism : MonoBehaviour
     {
+        protected enum Status
+        {
+            Dead, Alive, Eaten, Splitting
+        }
+        
         public int initialEnergy;
         protected HumusCube _humusCube;
         private int _energy;
         private int _energyConsumed;
         protected int _splitMass;
         
-        protected GameObject _body;
+        private Transform _body;
         protected Rigidbody _rigidbody;
+
+        protected Status status;
 
         public int Energy
         {
@@ -37,10 +45,12 @@ namespace Organism
             _energyConsumed = 0;
             initialEnergy = 0;
             _rigidbody = gameObject.GetComponent<Rigidbody>();
+            status = Status.Alive;
         }
 
         protected virtual void Start()
         {
+            _body = transform.GetChild(0);
             UpdateBody();
         }
 
@@ -62,19 +72,22 @@ namespace Organism
 
         protected void GainEnergy(int energy)
         {
-            _energy += energy;
-            if (energy > 0)
+            if (status == Status.Alive)
             {
-                _energyConsumed += energy;
-            }
-            if (_energy > Mass)
-            {
-                Mass = _energy;
-                if (Mass > _splitMass)
+                _energy += energy;
+                if (energy > 0)
                 {
-                    Split();
+                    _energyConsumed += energy;
                 }
-                UpdateBody();
+                if (_energy > Mass)
+                {
+                    Mass = _energy;
+                    if (Mass > _splitMass && status == Status.Alive)
+                    {
+                        StartCoroutine(PrepareToSplit());
+                    }
+                    UpdateBody();
+                }
             }
         }
 
@@ -117,5 +130,28 @@ namespace Organism
             Destroy(this);
         }
 
+        private IEnumerator PrepareToSplit()
+        {
+            status = Status.Splitting;
+            float duration = 0.2f;
+            float timeElapsed = 0;
+
+            while (timeElapsed < duration)
+            {
+                _body.localPosition = Vector3.Lerp(Vector3.zero, Vector3.back, timeElapsed / duration);
+                _body.localScale = Vector3.Lerp(new Vector3(1,1,1), new Vector3(0.8f,2,0.8f), timeElapsed / duration);
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            if (status == Status.Splitting)
+            {
+                _body.localPosition = Vector3.zero;
+                _body.localScale = new Vector3(1,1,1);
+                Split(); 
+            }
+
+            status = Status.Alive;
+        }
     }
 }
