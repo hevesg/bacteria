@@ -26,9 +26,10 @@ namespace Organism.Plankton
             _rigidbody.velocity = Vector3.zero;
         }
 
-        void Update()
+        protected override void Update()
         {
-            if (_humusCube != null)
+            base.Update();
+            if (_humusCube != null && _humusCube.Quantity > 0)
             {
                 GainEnergy(_humusCube.ProvideHumus((int) (1e4 * Time.deltaTime)));
             }
@@ -38,7 +39,7 @@ namespace Organism.Plankton
         {
             base.Split();
             _container.Add(this);
-            Jets(0, Random.Range(-1e1f, 1e1f), false);
+            Jets(1f, Random.Range(-1e-1f, 1e-1f), false);
         }
 
     }

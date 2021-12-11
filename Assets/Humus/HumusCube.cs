@@ -27,7 +27,7 @@ namespace Humus
             foreach (var neighbour in _neighbours)
             {
                 var delta = Quantity - neighbour.Quantity;
-                if (delta > 0)
+                if (delta > 10)
                 {
                     TransferQuantityTo(neighbour, (int) (delta * Time.deltaTime));
                 }

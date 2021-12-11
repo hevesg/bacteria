@@ -46,15 +46,13 @@ namespace Organism
 
         public GameObject Add(T original)
         {
-            var originalTransform = original.gameObject.transform;
-            var originalRotation = originalTransform.rotation.eulerAngles;
             var organism = Get(original.Energy);
             organism.transform.parent = original.transform;
-            organism.transform.localPosition = Vector3.back;
+            organism.transform.localPosition = Vector3.back * 2;
             organism.transform.localRotation = Quaternion.identity;
             organism.transform.SetParent(gameObject.transform);
             
-            organism.GetComponent<T>().Jets(0, Random.Range(-1e1f, 1e1f), false);
+            organism.GetComponent<T>().Jets(-1f, Random.Range(-1e-1f, 1e-1f), false);
             return organism;
         }
     }

@@ -42,7 +42,6 @@ namespace Organism
 
         protected virtual void Awake()
         {
-            _energyConsumed = 0;
             initialEnergy = 0;
             _rigidbody = gameObject.GetComponent<Rigidbody>();
             status = Status.Alive;
@@ -50,8 +49,16 @@ namespace Organism
 
         protected virtual void Start()
         {
-            _body = transform.GetChild(0);
+            _energy = initialEnergy;
+            _energyConsumed = _energy;
+            _body = transform.GetChild(1);
             UpdateBody();
+        }
+
+        protected virtual void Update()
+        {
+            BurnsEnergy((int) (Mass * Time.deltaTime / 1e2) + 1);
+            Rots();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -63,10 +70,10 @@ namespace Organism
         {
             if (useEnergy)
             {
-             BurnEnergy((int) (force + Mathf.Abs(torque)));   
+             BurnsEnergy((int) (force + Mathf.Abs(torque)));   
             } 
             var rotationInRads = Mathf.Deg2Rad * Rotation;
-            _rigidbody.AddForce(new Vector3(Mathf.Cos(rotationInRads) * force, 0, -Mathf.Sin(rotationInRads) * force));
+            _rigidbody.AddForce(new Vector3(Mathf.Sin(rotationInRads) * force, 0, Mathf.Cos(rotationInRads) * force));
             _rigidbody.AddTorque(new Vector3(0, torque, 0));
         }
 
@@ -82,7 +89,7 @@ namespace Organism
                 if (_energy > Mass)
                 {
                     Mass = _energy;
-                    if (Mass > _splitMass && status == Status.Alive)
+                    if (Mass > _splitMass)
                     {
                         StartCoroutine(PrepareToSplit());
                     }
@@ -91,23 +98,45 @@ namespace Organism
             }
         }
 
-        protected void BurnEnergy(int energy)
+        protected void BurnsEnergy(int energy)
         {
-            if (energy > Energy)
+            if (status == Status.Alive)
             {
-                Energy = 0;
+                if (energy > Energy)
+                {
+                    Energy = 0;
+                    status = Status.Dead;
+                }
+                else
+                {
+                    Energy -= energy;
+                }
             }
-            else
+        }
+
+        protected void Rots()
+        {
+            if (status == Status.Dead)
             {
-                Energy -= energy;
+                var quantity = (int) (Mass * Time.deltaTime) + 1;
+                if (quantity > _energyConsumed)
+                {
+                    quantity = _energyConsumed;
+                }
+
+                _humusCube.Quantity += quantity;
+                _energyConsumed -= quantity;
+                if (_energyConsumed <= 0)
+                {
+                    Dies();
+                }
             }
         }
 
         abstract protected void UpdateBody();
         
         protected virtual void Split() {
-            _energy /= 2;
-            Mass /= 2;
+            _energy = Mass;
         }
 
         protected void TransferQuantity(Collider other)
@@ -133,13 +162,15 @@ namespace Organism
         private IEnumerator PrepareToSplit()
         {
             status = Status.Splitting;
-            float duration = 0.2f;
+            float duration = 0.5f;
             float timeElapsed = 0;
+            float initialMass = Mass;
 
             while (timeElapsed < duration)
             {
-                _body.localPosition = Vector3.Lerp(Vector3.zero, Vector3.back, timeElapsed / duration);
-                _body.localScale = Vector3.Lerp(new Vector3(1,1,1), new Vector3(0.8f,2,0.8f), timeElapsed / duration);
+                _body.localPosition = Vector3.Lerp(Vector3.zero, Vector3.back * 2, timeElapsed / duration);
+                Mass = (int) Mathf.Lerp(initialMass, initialMass / 2, timeElapsed / duration);
+                UpdateBody();
                 timeElapsed += Time.deltaTime;
                 yield return null;
             }
@@ -147,7 +178,6 @@ namespace Organism
             if (status == Status.Splitting)
             {
                 _body.localPosition = Vector3.zero;
-                _body.localScale = new Vector3(1,1,1);
                 Split(); 
             }
 
