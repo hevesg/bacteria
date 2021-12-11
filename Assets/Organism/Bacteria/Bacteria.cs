@@ -10,7 +10,7 @@ namespace Organism.Bacteria
         protected override void Awake()
         {
             base.Awake();
-            _timeRemaining = 0;
+            _timeRemaining = 5f;
             gameObject.name = "Bacteria";
             _splitMass = (int) 1e6;
         }
@@ -23,11 +23,12 @@ namespace Organism.Bacteria
 
         protected void Update()
         {
+            base.Update();
             _timeRemaining -= Time.deltaTime;
             if (_timeRemaining <= 0)
             {
                 _timeRemaining = 5f;
-                Jets(1e-3f * Mass, Random.Range(-1e-5f, 1e-5f) * Mass, false);
+                Jets(1e2f, Random.Range(-1e1f, 1e1f));
             }
             
         }
@@ -35,10 +36,10 @@ namespace Organism.Bacteria
         private void OnCollisionEnter(Collision other)
         {
             var go = other.gameObject;
-            if (go.name == "Plankton")
+            if (go.name == "Plankton" && status == Status.Alive)
             {
                 var plankton = go.GetComponent<Plankton.Plankton>();
-                GainEnergy(plankton.Mass);
+                GainEnergy(plankton.isEatenBy(this));
                 plankton.Dies();
             }
         }
@@ -53,7 +54,7 @@ namespace Organism.Bacteria
         {
             base.Split();
             _container.Add(this);
-            Jets(1e-4f * Mass, Random.Range(-1e-4f, 1e-4f) * Mass, false);
+            Jets(-1f, Random.Range(-1e-1f, 1e-1f), false);
         }
     }
 }

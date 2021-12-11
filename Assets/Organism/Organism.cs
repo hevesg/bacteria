@@ -133,6 +133,13 @@ namespace Organism
             }
         }
 
+        public int isEatenBy(Organism organism)
+        {
+            status = Status.Eaten;
+            _humusCube.Quantity += _energyConsumed - Mass;
+            return Mass;
+        }
+
         abstract protected void UpdateBody();
         
         protected virtual void Split() {

@@ -31,8 +31,9 @@ namespace Aquarium
         {
             BuildWalls();
             BuildHumusContainer();
-            BuildPlanktonContainer();
-            BuildBacteriaContainer();
+            _planktonContainer = GameObject.Find("PlanktonContainer").GetComponent<PlanktonContainer>();
+            _bacteriaContainer = GameObject.Find("BacteriaContainer").GetComponent<BacteriaContainer>();
+            Populate();
         }
 
         private void BuildWalls()
@@ -60,19 +61,26 @@ namespace Aquarium
             _humusContainer.initialSize = size;
             _humusContainer.Initialize();
         }
-
-        private void BuildPlanktonContainer()
+        
+        private void Populate()
         {
-            _planktonContainer = GameObject.Find("PlanktonContainer").GetComponent<PlanktonContainer>();
-            _planktonContainer.initialChildren = initialPlankton;
-            _planktonContainer.Initialize();
-        }
-
-        private void BuildBacteriaContainer()
-        {
-            _bacteriaContainer = GameObject.Find("BacteriaContainer").GetComponent<BacteriaContainer>();
-            _bacteriaContainer.initialChildren = initialBacteria;
-            _bacteriaContainer.Initialize();
+            var cubes = GetRandomCubes(initialPlankton + initialBacteria);
+            var i = 0;
+            foreach (var cube in cubes)
+            {
+                var cubePosition = cube.transform.position;
+                var position = new Vector3(cubePosition.x + 0.5f, cubePosition.y + 0.5f, cubePosition.z + 0.5f);
+                var rotation = new Vector3(0, Random.Range(-180f, 180f), 0);
+                if (i < initialPlankton)
+                {
+                    _planktonContainer.Add(position, rotation, (int) 5e4);
+                }
+                else
+                {
+                    _bacteriaContainer.Add(position, rotation, (int) 5e5);
+                }
+                i++;
+            }
         }
 
         public GameObject[] GetRandomCubes(int count)
