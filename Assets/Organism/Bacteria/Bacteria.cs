@@ -21,14 +21,14 @@ namespace Organism.Bacteria
             _rigidbody.velocity = Vector3.zero;
         }
 
-        protected void Update()
+        protected override void Update()
         {
             base.Update();
             _timeRemaining -= Time.deltaTime;
             if (_timeRemaining <= 0)
             {
                 _timeRemaining = 5f;
-                Jets(1e2f, Random.Range(-1e1f, 1e1f));
+                Jets(5e2f, Helper.getRandomTorque(1e0f));
             }
             
         }
@@ -39,8 +39,8 @@ namespace Organism.Bacteria
             if (go.name == "Plankton" && status == Status.Alive)
             {
                 var plankton = go.GetComponent<Plankton.Plankton>();
-                GainEnergy(plankton.isEatenBy(this));
-                plankton.Dies();
+                //plankton.IsEatenBy(this);
+                //plankton.Dies();
             }
         }
 
@@ -54,7 +54,7 @@ namespace Organism.Bacteria
         {
             base.Split();
             _container.Add(this);
-            Jets(-1f, Random.Range(-1e-1f, 1e-1f), false);
+            Jets(1f, Helper.getRandomTorque(1e-1f), false);
         }
     }
 }

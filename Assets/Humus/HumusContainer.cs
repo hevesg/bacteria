@@ -26,7 +26,7 @@ namespace Humus
                 {
                     for (var z = 0; z < _size.z; z++)
                     {
-                        _dictionary.Add(new Vector3Int(x, y, z), Add(new Vector3(x, y, z), (int) 1e5));
+                        _dictionary.Add(new Vector3Int(x, y, z), Add(new Vector3(x, y, z), (int) 5e4));
                         
                     }
                 }

@@ -24,14 +24,12 @@ namespace Humus
 
         private void FixedUpdate()
         {
-            foreach (var neighbour in _neighbours)
-            {
-                var delta = Quantity - neighbour.Quantity;
-                if (delta > 10)
+            var neighbour = _neighbours[Random.Range(0, _neighbours.Count)];
+            var delta = Quantity - neighbour.Quantity;
+                if (delta > 0)
                 {
                     TransferQuantityTo(neighbour, (int) (delta * Time.deltaTime));
                 }
-            }
             UpdateMaterial();
         }
 

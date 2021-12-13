@@ -13,7 +13,6 @@ namespace Organism
         
         public int initialEnergy;
         protected HumusCube _humusCube;
-        private int _energy;
         private int _energyConsumed;
         protected int _splitMass;
         
@@ -22,11 +21,7 @@ namespace Organism
 
         protected Status status;
 
-        public int Energy
-        {
-            get => _energy;
-            set => _energy = value;
-        }
+        public int Energy { get; set; }
 
         public int Mass
         {
@@ -37,9 +32,7 @@ namespace Organism
         public int EnergyConsumed => _energyConsumed;
 
         public float Speed => _rigidbody.velocity.magnitude;
-
-        public float Rotation => gameObject.transform.rotation.eulerAngles.y;
-
+        
         protected virtual void Awake()
         {
             initialEnergy = 0;
@@ -49,46 +42,60 @@ namespace Organism
 
         protected virtual void Start()
         {
-            _energy = initialEnergy;
-            _energyConsumed = _energy;
+            Energy = initialEnergy;
+            _energyConsumed = Energy;
             _body = transform.GetChild(1);
+            _body.gameObject.SetActive(false);
             UpdateBody();
         }
 
         protected virtual void Update()
         {
-            BurnsEnergy((int) (Mass * Time.deltaTime / 1e2) + 1);
+            BurnsEnergy((int) (Mass * Time.deltaTime * 1e-2f) + 1);
             Rots();
         }
 
         private void OnTriggerEnter(Collider other)
         {
             TransferQuantity(other);
+            if (other.gameObject.name == "Air")
+            {
+                _rigidbody.useGravity = true;
+                _rigidbody.drag = 0;
+            }
         }
 
-        public void Jets(float force, float torque, bool useEnergy = true)
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.name == "Air")
+            {
+                _rigidbody.useGravity = false;
+                _rigidbody.drag = 1;
+            }
+        }
+
+        public void Jets(float force, Vector3 torque, bool useEnergy = true)
         {
             if (useEnergy)
             {
-             BurnsEnergy((int) (force + Mathf.Abs(torque)));   
+             BurnsEnergy((int) (force + torque.magnitude));   
             } 
-            var rotationInRads = Mathf.Deg2Rad * Rotation;
-            _rigidbody.AddForce(new Vector3(Mathf.Sin(rotationInRads) * force, 0, Mathf.Cos(rotationInRads) * force));
-            _rigidbody.AddTorque(new Vector3(0, torque, 0));
+            _rigidbody.AddRelativeForce(Vector3.forward * force);
+            _rigidbody.AddRelativeTorque(torque);
         }
 
         protected void GainEnergy(int energy)
         {
             if (status == Status.Alive)
             {
-                _energy += energy;
+                Energy += energy;
                 if (energy > 0)
                 {
                     _energyConsumed += energy;
                 }
-                if (_energy > Mass)
+                if (Energy > Mass)
                 {
-                    Mass = _energy;
+                    Mass = Energy;
                     if (Mass > _splitMass)
                     {
                         StartCoroutine(PrepareToSplit());
@@ -98,7 +105,7 @@ namespace Organism
             }
         }
 
-        protected void BurnsEnergy(int energy)
+        private void BurnsEnergy(int energy)
         {
             if (status == Status.Alive)
             {
@@ -114,7 +121,7 @@ namespace Organism
             }
         }
 
-        protected void Rots()
+        private void Rots()
         {
             if (status == Status.Dead)
             {
@@ -133,20 +140,21 @@ namespace Organism
             }
         }
 
-        public int isEatenBy(Organism organism)
+        public void IsEatenBy(Organism organism)
         {
+            Debug.Log("Extra " + (_energyConsumed - Mass) + "\t" + "Mass " + Mass);
             status = Status.Eaten;
             _humusCube.Quantity += _energyConsumed - Mass;
-            return Mass;
+            organism.GainEnergy(Mass);
         }
 
-        abstract protected void UpdateBody();
+        protected abstract void UpdateBody();
         
         protected virtual void Split() {
-            _energy = Mass;
+            Energy = Mass;
         }
 
-        protected void TransferQuantity(Collider other)
+        private void TransferQuantity(Collider other)
         {
             if (other.gameObject.name == "Humus")
             {
@@ -168,6 +176,7 @@ namespace Organism
 
         private IEnumerator PrepareToSplit()
         {
+            _body.gameObject.SetActive(true);
             status = Status.Splitting;
             float duration = 0.5f;
             float timeElapsed = 0;
@@ -185,10 +194,10 @@ namespace Organism
             if (status == Status.Splitting)
             {
                 _body.localPosition = Vector3.zero;
+                _body.gameObject.SetActive(false);
                 Split(); 
+                status = Status.Alive;
             }
-
-            status = Status.Alive;
         }
     }
 }

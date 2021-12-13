@@ -31,7 +31,7 @@ namespace Organism.Plankton
             base.Update();
             if (_humusCube != null && _humusCube.Quantity > 0)
             {
-                GainEnergy(_humusCube.ProvideHumus((int) (1e4 * Time.deltaTime)));
+                GainEnergy(_humusCube.ProvideHumus((int) (Mass * Time.deltaTime * 1e-1f)));
             }
         }
 
@@ -39,7 +39,7 @@ namespace Organism.Plankton
         {
             base.Split();
             _container.Add(this);
-            Jets(1f, Random.Range(-1e-1f, 1e-1f), false);
+            Jets(1f, Helper.getRandomTorque(1e-1f), false);
         }
 
     }

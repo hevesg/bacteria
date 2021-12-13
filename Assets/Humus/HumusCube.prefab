@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -295917708297823907}
   - component: {fileID: 1070418385169226033}
   - component: {fileID: 865690492745899010}
+  - component: {fileID: 4893585000745373828}
   m_Layer: 0
   m_Name: HumusCube
   m_TagString: Untagged
@@ -628,7 +629,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 20
+    maxNumParticles: 0
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -4841,3 +4842,16 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!135 &4893585000745373828
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7180560184511241464}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.68
+  m_Center: {x: 0.5, y: 0.5, z: 0.55}
