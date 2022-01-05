@@ -1,32 +1,37 @@
 using System.Collections;
-using Humus;
+using Aquarium;
 using UnityEngine;
 
 namespace Organism
 {
-    abstract public class Organism : MonoBehaviour
+    public abstract class Organism : MonoBehaviour
     {
         protected enum Status
         {
             Dead, Alive, Eaten, Splitting
         }
+
+        protected enum Location
+        {
+            Water, Air
+        }
         
         public int initialEnergy;
-        protected HumusCube _humusCube;
         private int _energyConsumed;
         protected int _splitMass;
         
         private Transform _body;
         protected Rigidbody _rigidbody;
-
+        
         protected Status status;
+        protected Location location;
 
         public int Energy { get; set; }
 
         public int Mass
         {
-            get => (int) (_rigidbody.mass * 1e6);
-            set => _rigidbody.mass = (float) (value / 1e6);
+            get => (int) (_rigidbody.mass * 1e4);
+            set => _rigidbody.mass = (float) (value / 1e4);
         }
         
         public int EnergyConsumed => _energyConsumed;
@@ -38,6 +43,7 @@ namespace Organism
             initialEnergy = 0;
             _rigidbody = gameObject.GetComponent<Rigidbody>();
             status = Status.Alive;
+            location = Location.Water;
         }
 
         protected virtual void Start()
@@ -51,36 +57,41 @@ namespace Organism
 
         protected virtual void Update()
         {
-            BurnsEnergy((int) (Mass * Time.deltaTime * 1e-2f) + 1);
-            Rots();
+            switch (Time.frameCount % 3)
+            {
+                case 0:
+                    BurnsEnergy((int) (Mass * Time.deltaTime * 1e-2f * 3) + 1);
+                    break;
+                case 1:
+                    Rots();
+                    break;
+            }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            TransferQuantity(other);
-            if (other.gameObject.name == "Air")
-            {
-                _rigidbody.useGravity = true;
-                _rigidbody.drag = 0;
-            }
+            if (other.gameObject.name != "Air") return;
+            _rigidbody.useGravity = true;
+            _rigidbody.drag = 1f;
+            location = Location.Air;
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.name == "Air")
-            {
-                _rigidbody.useGravity = false;
-                _rigidbody.drag = 1;
-            }
+            if (other.gameObject.name != "Air") return;
+            _rigidbody.useGravity = false;
+            _rigidbody.drag = 5f;
+            location = Location.Water;
         }
 
         public void Jets(float force, Vector3 torque, bool useEnergy = true)
         {
+            if (location != Location.Water) return;
             if (useEnergy)
             {
-             BurnsEnergy((int) (force + torque.magnitude));   
+                // BurnsEnergy((int) ((force + torque.magnitude) / 1e1f));   
             } 
-            _rigidbody.AddRelativeForce(Vector3.forward * force);
+            _rigidbody.AddRelativeForce(0, 0f, Vector3.forward.z * force);
             _rigidbody.AddRelativeTorque(torque);
         }
 
@@ -125,13 +136,13 @@ namespace Organism
         {
             if (status == Status.Dead)
             {
-                var quantity = (int) (Mass * Time.deltaTime) + 1;
+                var quantity = (int) (Mass * Time.deltaTime * 3) + 1;
                 if (quantity > _energyConsumed)
                 {
                     quantity = _energyConsumed;
                 }
 
-                _humusCube.Quantity += quantity;
+                Puddle.Instance.AddFertility(quantity);
                 _energyConsumed -= quantity;
                 if (_energyConsumed <= 0)
                 {
@@ -142,9 +153,8 @@ namespace Organism
 
         public void IsEatenBy(Organism organism)
         {
-            Debug.Log("Extra " + (_energyConsumed - Mass) + "\t" + "Mass " + Mass);
             status = Status.Eaten;
-            _humusCube.Quantity += _energyConsumed - Mass;
+            Puddle.Instance.AddFertility(_energyConsumed - Mass);
             organism.GainEnergy(Mass);
         }
 
@@ -152,19 +162,6 @@ namespace Organism
         
         protected virtual void Split() {
             Energy = Mass;
-        }
-
-        private void TransferQuantity(Collider other)
-        {
-            if (other.gameObject.name == "Humus")
-            {
-                var humusCube = other.gameObject.GetComponent<HumusCube>();
-                if (_humusCube)
-                {
-                    _humusCube.TransferQuantityTo(humusCube, (int) (Speed * Mass / 1e2f));
-                }
-                _humusCube = humusCube;
-            }
         }
 
         public void Dies()
@@ -178,7 +175,7 @@ namespace Organism
         {
             _body.gameObject.SetActive(true);
             status = Status.Splitting;
-            float duration = 0.5f;
+            float duration = 0.2f;
             float timeElapsed = 0;
             float initialMass = Mass;
 

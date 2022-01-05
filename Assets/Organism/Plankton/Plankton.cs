@@ -1,3 +1,4 @@
+using Aquarium;
 using UnityEngine;
 
 namespace Organism.Plankton
@@ -28,18 +29,17 @@ namespace Organism.Plankton
 
         protected override void Update()
         {
-            base.Update();
-            if (_humusCube != null && _humusCube.Quantity > 0)
-            {
-                GainEnergy(_humusCube.ProvideHumus((int) (Mass * Time.deltaTime * 1e-1f)));
-            }
+            base.Update(); 
+            GainEnergy(Puddle.Instance.RemoveFertility(
+                (int) (Mass * Time.deltaTime * 1e-1f * (-transform.position.y / 20)) + 1)
+            );
         }
 
         protected override void Split()
         {
             base.Split();
             _container.Add(this);
-            Jets(1f, Helper.getRandomTorque(1e-1f), false);
+            Jets(1e4f, Puddle.getRandomTorque(1e2f), false);
         }
 
     }

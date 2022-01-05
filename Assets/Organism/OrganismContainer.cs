@@ -1,3 +1,4 @@
+using Aquarium;
 using UnityEngine;
 
 namespace Organism
@@ -5,13 +6,7 @@ namespace Organism
     public abstract class OrganismContainer<T> : MonoBehaviour where T : Organism
     {
         public GameObject childPrefab;
-        protected Aquarium.Aquarium _aquarium;
-
-        protected void Start()
-        {
-            _aquarium = gameObject.GetComponentInParent<Aquarium.Aquarium>();
-        }
-
+        
         private GameObject Create(int energy)
         {
             var go = Instantiate(childPrefab, Vector3.zero, Quaternion.identity);
@@ -24,9 +19,9 @@ namespace Organism
         public GameObject Add(Vector3 position, Vector3 rotation, int energy)
         {
             var go = Create(energy);
-            go.transform.localPosition = position;
-            go.transform.localRotation = Quaternion.Euler(rotation);
-            go.transform.SetParent(gameObject.transform);
+            go.transform.position = position;
+            go.transform.rotation = Quaternion.Euler(rotation);
+            go.transform.parent = gameObject.transform;
             return go;
         }
 
@@ -34,12 +29,12 @@ namespace Organism
         {
             var organism = Create(original.Energy);
             var tf = original.transform;
-            organism.transform.parent = tf;
+            organism.transform.SetParent(tf);
             organism.transform.localPosition = Vector3.back * 2;
             organism.transform.localRotation = Quaternion.identity;
             organism.transform.SetParent(gameObject.transform);
             
-            organism.GetComponent<T>().Jets(-1f, Helper.getRandomTorque(1e-1f), false);
+            organism.GetComponent<T>().Jets(-1e4f, Puddle.getRandomTorque(1e2f), false);
             return organism;
         }
     }

@@ -1,3 +1,4 @@
+using Aquarium;
 using UnityEngine;
 
 namespace Organism.Bacteria
@@ -28,7 +29,7 @@ namespace Organism.Bacteria
             if (_timeRemaining <= 0)
             {
                 _timeRemaining = 5f;
-                Jets(5e2f, Helper.getRandomTorque(1e0f));
+                Jets(1e5f, Puddle.getRandomTorque(1e3f));
             }
             
         }
@@ -54,7 +55,7 @@ namespace Organism.Bacteria
         {
             base.Split();
             _container.Add(this);
-            Jets(1f, Helper.getRandomTorque(1e-1f), false);
+            Jets(1e4f, Puddle.getRandomTorque(1e-1f), false);
         }
     }
 }
