@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjs1drfks6vxg"]
+[gd_scene load_steps=4 format=3 uid="uid://bjs1drfks6vxg"]
 
 [ext_resource type="PackedScene" uid="uid://bnfx8su5yvqom" path="res://scenes/dish_wall/dish_wall.tscn" id="1_1un46"]
 [ext_resource type="Script" uid="uid://bhwwcb635vnjp" path="res://scenes/petri_dish/petri_dish.gd" id="1_f3vbx"]
+[ext_resource type="PackedScene" uid="uid://d2a723elob0w7" path="res://scenes/dish_area/dish_area.tscn" id="3_n2ik2"]
 
 [node name="PetriDish" type="Node2D"]
 script = ExtResource("1_f3vbx")
@@ -24,3 +25,8 @@ scale = Vector2(10, 1)
 position = Vector2(-320, 0)
 rotation = -1.5708
 scale = Vector2(10, 1)
+
+[node name="Areas" type="Node2D" parent="."]
+position = Vector2(-288, -288)
+
+[node name="DishArea" parent="Areas" instance=ExtResource("3_n2ik2")]

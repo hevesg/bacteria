@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2a723elob0w7"]
+
+[ext_resource type="Script" uid="uid://bg7gm38lveugh" path="res://scenes/dish_area/dish_area.gd" id="1_wwcgf"]
+[ext_resource type="Texture2D" uid="uid://de48ckrrfet2r" path="res://assets/dish_area.svg" id="1_xisi6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gymmt"]
+size = Vector2(64, 64)
+
+[node name="DishArea" type="Area2D"]
+script = ExtResource("1_wwcgf")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_xisi6")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gymmt")

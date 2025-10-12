@@ -5,8 +5,11 @@ class_name PetriDish extends Node2D
 @onready var easternWall: StaticBody2D = $EasternWall
 @onready var southernWall: StaticBody2D = $SouthernWall
 @onready var westernWall: StaticBody2D = $WesternWall
+@onready var areas: Node2D = $Areas
 
 const AREA_SIZE: int = 64
+const HALF_AREA_SIZE: int = AREA_SIZE / 2
+const AREA_SCENE: PackedScene = preload("res://scenes/dish_area/dish_area.tscn")
 
 @export var size: Vector2i = Vector2i(10, 10):
 	set(value):
@@ -16,6 +19,7 @@ const AREA_SIZE: int = 64
 		)
 		
 		_update_walls()
+		_update_areas()
 
 func _ready() -> void:
 	size = size
@@ -35,6 +39,18 @@ func _update_wall(
 	if wall:
 		wall.scale.x = scale_value
 		if move_on_horizontal_axis:
-			wall.position.x = size.x * position_value * AREA_SIZE / 2.0
+			wall.position.x = size.x * position_value * HALF_AREA_SIZE
 		else:
-			wall.position.y = size.y * position_value * AREA_SIZE / 2.0
+			wall.position.y = size.y * position_value * HALF_AREA_SIZE
+
+func _update_areas() -> void:
+	if areas:
+		areas.position.x = (-size.x + 1) * HALF_AREA_SIZE
+		areas.position.y = (-size.y + 1) * HALF_AREA_SIZE
+		for child in areas.get_children():
+			child.queue_free()
+		for x in range(size.x):
+			for y in range(size.y):
+				var area = AREA_SCENE.instantiate()
+				area.position = Vector2(x * AREA_SIZE, y * AREA_SIZE)
+				areas.add_child(area)
