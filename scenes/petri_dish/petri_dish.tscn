@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjs1drfks6vxg"]
+
+[ext_resource type="PackedScene" uid="uid://bnfx8su5yvqom" path="res://scenes/dish_wall/dish_wall.tscn" id="1_1un46"]
+[ext_resource type="Script" uid="uid://bhwwcb635vnjp" path="res://scenes/petri_dish/petri_dish.gd" id="1_f3vbx"]
+
+[node name="PetriDish" type="Node2D"]
+script = ExtResource("1_f3vbx")
+
+[node name="NorthernWall" parent="." instance=ExtResource("1_1un46")]
+position = Vector2(0, -320)
+scale = Vector2(10, 1)
+
+[node name="EasternWall" parent="." instance=ExtResource("1_1un46")]
+position = Vector2(320, 0)
+rotation = 1.5708
+scale = Vector2(10, 1)
+
+[node name="SouthernWall" parent="." instance=ExtResource("1_1un46")]
+position = Vector2(0, 320)
+rotation = 3.14159
+scale = Vector2(10, 1)
+
+[node name="WesternWall" parent="." instance=ExtResource("1_1un46")]
+position = Vector2(-320, 0)
+rotation = -1.5708
+scale = Vector2(10, 1)
