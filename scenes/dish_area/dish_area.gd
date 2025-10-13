@@ -1,24 +1,24 @@
+@tool
 class_name DishArea extends Area2D
 
-@onready var sprite: Sprite2D = $Sprite
+@onready
+var sprite: Sprite2D = $Sprite
 
-var initial_energy: int = 0
-var _energy: int = 0:
+@export
+var energy: int = 0:
 	set(value):
-		_energy = value
-		sprite.modulate = Color(
-			1.0,
-			1.0,
-			1.0,
-			_energy / 10e8)
-
+		energy = value
+		if sprite:
+			sprite.modulate = Color(
+				1.0,
+				1.0,
+				1.0,
+				energy / 10e6)
+	
 func transfer_energy_to(amount: int, area: DishArea) -> void:
-	amount = clampi(amount, 0, _energy)
-	_energy -= amount
-	area._energy += amount
-
-func _ready() -> void:
-	_energy = initial_energy
+	amount = clampi(amount, 0, energy)
+	energy -= amount
+	area.energy += amount
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Particle:
