@@ -7,21 +7,18 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="PetriDish" parent="." instance=ExtResource("2_7h61r")]
-position = Vector2(640, 640)
-size = Vector2i(20, 20)
-
-[node name="Herbivore" parent="." instance=ExtResource("1_sul5r")]
-position = Vector2(568, 576)
-mass = 20.0
-initial_energy = 200000
-
-[node name="Herbivore2" parent="." instance=ExtResource("1_sul5r")]
-position = Vector2(608, 576)
-mass = 10.0
-initial_energy = 100000
+position = Vector2(576, 320)
+size = Vector2i(18, 10)
 
 [node name="Particle" parent="." instance=ExtResource("3_0sr1o")]
 position = Vector2(592, 512)
+energy = 10000
 
 [node name="Particle2" parent="." instance=ExtResource("3_0sr1o")]
-position = Vector2(576, 528)
+position = Vector2(552, 528)
+energy = 10000
+
+[node name="Herbivore" parent="." instance=ExtResource("1_sul5r")]
+position = Vector2(312, 424)
+mass = 10.0
+energy = 100000

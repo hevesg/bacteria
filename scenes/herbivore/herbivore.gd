@@ -10,4 +10,4 @@ func _on_timer_timeout() -> void:
 
 func _physics_process(delta: float) -> void:
 	if not Engine.is_editor_hint():
-		_add_energy(int(delta * 100))
+		energy += int(delta * 100)
