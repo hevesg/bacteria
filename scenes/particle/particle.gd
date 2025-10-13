@@ -7,16 +7,22 @@ class_name Particle extends RigidBody2D
 var _cumulative_energy: int = 0
 var _energy: int = 0
 
-var _current_area: DishArea = null:
+var current_area: DishArea = null:
 	set(value):
-		if _current_area:
+		if current_area:
 			var force: float = int(linear_velocity.length() * mass)
-			_current_area._energy -= force * Globals.ENERGY_TRANSFER_AMOUNT
-			value._energy += force * Globals.ENERGY_TRANSFER_AMOUNT
+			current_area.transfer_energy_to(
+				force * Globals.ENERGY_TRANSFER_AMOUNT,
+				value
+				)
 			
-		_current_area = value
+		current_area = value
 
-@export_range(Globals.ENERGY_PER_SIZE, Globals.ENERGY_PER_SIZE * 1000, Globals.ENERGY_PER_SIZE)
+@export_range(
+	Globals.ENERGY_PER_SIZE,
+	Globals.ENERGY_PER_SIZE * 1000,
+	Globals.ENERGY_PER_SIZE
+)
 var initial_energy: int = Globals.ENERGY_PER_SIZE
 
 var _size: float = 1.0:

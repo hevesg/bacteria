@@ -14,13 +14,13 @@ size = Vector2i(18, 10)
 position = Vector2(568, 576)
 initial_energy = 200000
 
+[node name="Herbivore2" parent="." instance=ExtResource("1_sul5r")]
+position = Vector2(608, 576)
+mass = 0.5
+initial_energy = 100000
+
 [node name="Particle" parent="." instance=ExtResource("3_0sr1o")]
 position = Vector2(592, 512)
 
 [node name="Particle2" parent="." instance=ExtResource("3_0sr1o")]
 position = Vector2(576, 528)
-
-[node name="Herbivore2" parent="." instance=ExtResource("1_sul5r")]
-position = Vector2(608, 576)
-mass = 0.5
-initial_energy = 100000
