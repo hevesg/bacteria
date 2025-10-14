@@ -2,23 +2,28 @@
 
 [ext_resource type="PackedScene" uid="uid://bvwtl1p6udhdk" path="res://scenes/herbivore/herbivore.tscn" id="1_sul5r"]
 [ext_resource type="PackedScene" uid="uid://bjs1drfks6vxg" path="res://scenes/petri_dish/petri_dish.tscn" id="2_7h61r"]
-[ext_resource type="PackedScene" uid="uid://cxb44o3mcufg7" path="res://scenes/particle/particle.tscn" id="3_0sr1o"]
+[ext_resource type="PackedScene" uid="uid://cse11so7v7j4d" path="res://scenes/algae/algae.tscn" id="3_0sr1o"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Game" type="Node2D"]
 
 [node name="PetriDish" parent="." instance=ExtResource("2_7h61r")]
 position = Vector2(576, 320)
 size = Vector2i(18, 10)
-
-[node name="Particle" parent="." instance=ExtResource("3_0sr1o")]
-position = Vector2(592, 512)
-energy = 10000
-
-[node name="Particle2" parent="." instance=ExtResource("3_0sr1o")]
-position = Vector2(552, 528)
-energy = 10000
+initial_energy_per_area = 20000
 
 [node name="Herbivore" parent="." instance=ExtResource("1_sul5r")]
 position = Vector2(312, 424)
 mass = 10.0
+gravity_scale = 0.0
+linear_damp = 1.0
 energy = 100000
+
+[node name="Algae" parent="." instance=ExtResource("3_0sr1o")]
+position = Vector2(384, 512)
+energy = 10000
+
+[node name="Algae2" parent="." instance=ExtResource("3_0sr1o")]
+position = Vector2(960, 256)
+
+[node name="Algae3" parent="." instance=ExtResource("3_0sr1o")]
+position = Vector2(192, 256)

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cse11so7v7j4d"]
+
+[ext_resource type="Script" uid="uid://bst5xo8gbpwk3" path="res://scenes/algae/algae.gd" id="1_np3o0"]
+[ext_resource type="Texture2D" uid="uid://h4wu4b3kf8jr" path="res://assets/particle.svg" id="2_rg6q6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7qnq6"]
+radius = 8.0
+
+[node name="Algae" type="RigidBody2D"]
+script = ExtResource("1_np3o0")
+metadata/_custom_type_script = "uid://bl4gb5krhg84t"
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_rg6q6")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7qnq6")

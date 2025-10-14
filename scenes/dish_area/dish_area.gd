@@ -13,7 +13,7 @@ var energy: int = 0:
 				1.0,
 				1.0,
 				1.0,
-				energy / 10e6)
+				energy / 10e5)
 	
 func transfer_energy_to(amount: int, area: DishArea) -> void:
 	amount = clampi(amount, 0, energy)

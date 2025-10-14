@@ -19,7 +19,7 @@ var size: Vector2i = Vector2i(10, 10):
 		_update_walls()
 		_update_areas()
 
-@export_range(10e5, 10e6, 10e5)
+@export_range(10e3, 10e4, 10e3)
 var initial_energy_per_area: int = 10e5
 
 func _ready() -> void:

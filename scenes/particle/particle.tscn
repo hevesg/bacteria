@@ -8,7 +8,6 @@ radius = 8.0
 
 [node name="Particle" type="RigidBody2D"]
 gravity_scale = 0.0
-linear_damp = 1.0
 script = ExtResource("1_devjn")
 
 [node name="Sprite" type="Sprite2D" parent="."]
