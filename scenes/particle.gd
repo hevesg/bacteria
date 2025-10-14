@@ -39,6 +39,7 @@ var current_area: DishArea = null:
 				value
 			)
 		current_area = value
+
 func half() -> void:
 	energy = energy / 2
 	_setMass(float(energy) / Globals.ENERGY_PER_SIZE)
