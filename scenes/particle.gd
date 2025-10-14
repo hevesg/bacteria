@@ -10,9 +10,9 @@ var sprite: Sprite2D = $Sprite
 var _cumulative_energy: int = 0
 
 @export_range(
-	Globals.ENERGY_PER_SIZE,
-	Globals.ENERGY_PER_SIZE * 10e2,
-	Globals.ENERGY_PER_SIZE
+	Globals.HUNDRED_THOUSAND,
+	Globals.MILLION,
+	Globals.HUNDRED_THOUSAND
 )
 var energy: int = 0:
 	set(value):
@@ -33,16 +33,19 @@ var energy: int = 0:
 var current_area: DishArea = null:
 	set(value):
 		if current_area:
-			var force: int = int(linear_velocity.length() * mass)
 			current_area.transfer_energy_to(
-				force * Globals.ENERGY_TRANSFER_AMOUNT,
+				int(getForce() * Globals.ENERGY_TRANSFER_AMOUNT),
 				value
 			)
 		current_area = value
+func getForce() -> float:
+	return linear_velocity.length() * mass
 
-func half() -> void:
-	energy = energy / 2
+func half() -> int:
+	var amount: int = int(energy / 2.0)
+	energy -= amount
 	_setMass(float(energy) / Globals.ENERGY_PER_SIZE)
+	return amount
 
 func _ready() -> void:
 	energy = energy

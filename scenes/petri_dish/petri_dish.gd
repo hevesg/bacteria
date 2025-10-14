@@ -19,8 +19,17 @@ var size: Vector2i = Vector2i(10, 10):
 		_update_walls()
 		_update_areas()
 
-@export_range(10e3, 10e4, 10e3)
-var initial_energy_per_area: int = 10e5
+@export_range(
+	Globals.HUNDRED_THOUSAND,
+	Globals.MILLION,
+	Globals.HUNDRED_THOUSAND
+)
+var initial_energy_per_area: int = Globals.HUNDRED_THOUSAND:
+	set(value):
+		initial_energy_per_area = clampi(value, Globals.HUNDRED_THOUSAND, Globals.MILLION)
+		if areas:
+			for child in areas.get_children():
+				child.energy = initial_energy_per_area
 
 func _ready() -> void:
 	size = size

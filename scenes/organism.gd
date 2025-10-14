@@ -1,3 +1,4 @@
+@tool
 class_name Organism extends Particle
 
 var _alive: bool = true:
@@ -20,20 +21,19 @@ func jet(directional_strength: float, torque_strength: float = 0.0) -> void:
 	apply_torque_impulse(torque_strength)
 	
 func split(scene: PackedScene) -> void:
-	half()
 	var new_organism = scene.instantiate()
 	new_organism.position.x = position.x + 10.0
 	new_organism.position.y = position.y + 10.0
 	new_organism.rotation = rotation - PI
-	new_organism.energy = energy
+	new_organism.energy = half()
 	get_parent().add_child(new_organism)
 	new_organism.jet(
-		10e2 * new_organism.mass,
-		randf_range(-10e2, 10e2) * new_organism.mass
+		Globals.HUNDRED * new_organism.mass,
+		randf_range(-Globals.HUNDRED, Globals.HUNDRED) * new_organism.mass
 	)
 	jet(
-		10e2 * mass,
-		randf_range(-10e2, 10e2) * mass
+		Globals.HUNDRED * mass,
+		randf_range(-Globals.HUNDRED, Globals.HUNDRED) * mass
 	)
 
 func _rot(amount: int) -> int:

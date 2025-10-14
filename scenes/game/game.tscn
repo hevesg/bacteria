@@ -9,21 +9,23 @@
 [node name="PetriDish" parent="." instance=ExtResource("2_7h61r")]
 position = Vector2(576, 320)
 size = Vector2i(18, 10)
-initial_energy_per_area = 50000
+initial_energy_per_area = 500000
 
 [node name="Herbivore" parent="." instance=ExtResource("1_sul5r")]
-position = Vector2(312, 424)
+position = Vector2(544, 480)
 mass = 10.0
 gravity_scale = 0.0
 linear_damp = 1.0
-energy = 100000
+energy = 1000000
 
 [node name="Algae" parent="." instance=ExtResource("3_0sr1o")]
-position = Vector2(384, 512)
-energy = 10000
+position = Vector2(288, 480)
 
 [node name="Algae2" parent="." instance=ExtResource("3_0sr1o")]
-position = Vector2(960, 256)
+position = Vector2(864, 544)
 
 [node name="Algae3" parent="." instance=ExtResource("3_0sr1o")]
-position = Vector2(192, 256)
+position = Vector2(96, 160)
+
+[node name="Algae4" parent="." instance=ExtResource("3_0sr1o")]
+position = Vector2(1056, 224)

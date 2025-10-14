@@ -1,20 +1,20 @@
+@tool
 class_name Algae extends Organism
 
-const ALGAE_SCENE: PackedScene = preload("res://scenes/algae/algae.tscn")
-
-var split_energy: int = 2 * 10e3
+var split_energy: int = 2 * Globals.HUNDRED_THOUSAND
 
 func _process(delta: float) -> void:
 	if isAlive():
-		energy += _suckEnergy(delta * 10e3)
-		energy -= delta * 10e2
+		energy += _suckEnergy(int(delta * Globals.TEN_THOUSAND))
+		energy -= int(delta * Globals.THOUSAND)
 		if energy >= split_energy:
-			split(ALGAE_SCENE)
+			var algae_scene = load("res://scenes/algae/algae.tscn")
+			split(algae_scene)
 		if energy <= 0:
 			die()
 	else:
 		if _cumulative_energy > 0:
-			_cumulative_energy -= _rot(delta * 10e2)
+			_cumulative_energy -= _rot(int(delta * Globals.TEN_THOUSAND))
 		else:
 			queue_free()
 
