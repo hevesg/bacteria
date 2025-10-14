@@ -9,7 +9,7 @@
 [node name="PetriDish" parent="." instance=ExtResource("2_7h61r")]
 position = Vector2(576, 320)
 size = Vector2i(18, 10)
-initial_energy_per_area = 20000
+initial_energy_per_area = 30000
 
 [node name="Herbivore" parent="." instance=ExtResource("1_sul5r")]
 position = Vector2(312, 424)
