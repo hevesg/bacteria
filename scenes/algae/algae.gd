@@ -1,4 +1,3 @@
-@tool
 class_name Algae extends Organism
 
 var split_energy: int = 2 * Globals.HUNDRED_THOUSAND
@@ -14,7 +13,7 @@ func _process(delta: float) -> void:
 			die()
 	else:
 		if _cumulative_energy > 0:
-			_cumulative_energy -= _rot(int(delta * Globals.TEN_THOUSAND))
+			_rot(int(delta * Globals.TEN_THOUSAND))
 		else:
 			queue_free()
 

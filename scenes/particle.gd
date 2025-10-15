@@ -1,4 +1,3 @@
-@tool
 class_name Particle extends RigidBody2D
 
 @onready

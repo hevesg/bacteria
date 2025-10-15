@@ -1,4 +1,3 @@
-@tool
 class_name Organism extends Particle
 
 var _alive: bool = true:
