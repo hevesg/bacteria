@@ -24,7 +24,7 @@ func split(scene: PackedScene) -> void:
 	new_organism.position.x = position.x + 10.0
 	new_organism.position.y = position.y + 10.0
 	new_organism.rotation = rotation - PI
-	new_organism.energy = half()
+	new_organism.set_initial_energy(half())
 	get_parent().add_child(new_organism)
 	new_organism.jet(
 		Globals.HUNDRED * new_organism.mass,

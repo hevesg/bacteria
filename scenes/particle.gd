@@ -21,9 +21,8 @@ var energy: int = 0:
 			energy = value
 			_setMass(float(energy) / Globals.ENERGY_PER_SIZE)
 		else:
-			if energy <=  value:
+			if value > energy:
 				_cumulative_energy += value - energy
-		
 			energy = value
 
 			if float(energy) / Globals.ENERGY_PER_SIZE >= mass:
@@ -39,6 +38,10 @@ var current_area: DishArea = null:
 		current_area = value
 func getForce() -> float:
 	return linear_velocity.length() * mass
+
+func set_initial_energy(amount: int):
+	energy = amount
+	_cumulative_energy = 0
 
 func half() -> int:
 	var amount: int = int(energy / 2.0)

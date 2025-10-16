@@ -1,23 +1,49 @@
-[gd_scene load_steps=4 format=3 uid="uid://dd70v5mqlwcdi"]
+[gd_scene load_steps=5 format=3 uid="uid://dd70v5mqlwcdi"]
 
+[ext_resource type="Script" uid="uid://d32tslop45hq" path="res://scenes/game/game.gd" id="1_0sr1o"]
 [ext_resource type="PackedScene" uid="uid://bvwtl1p6udhdk" path="res://scenes/herbivore/herbivore.tscn" id="1_sul5r"]
 [ext_resource type="PackedScene" uid="uid://bjs1drfks6vxg" path="res://scenes/petri_dish/petri_dish.tscn" id="2_7h61r"]
 [ext_resource type="PackedScene" uid="uid://cse11so7v7j4d" path="res://scenes/algae/algae.tscn" id="3_0sr1o"]
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_0sr1o")
 
 [node name="PetriDish" parent="." instance=ExtResource("2_7h61r")]
-position = Vector2(576, 352)
-size = Vector2i(18, 11)
+position = Vector2(128, 128)
+size = Vector2i(4, 4)
 initial_energy_per_area = 400000
 
 [node name="Algae" parent="." instance=ExtResource("3_0sr1o")]
-position = Vector2(224, 416)
+position = Vector2(160, 96)
 energy = 100000
 
+[node name="AlgaeNumber" type="Label" parent="."]
+offset_left = 320.0
+offset_top = 8.0
+offset_right = 448.0
+offset_bottom = 31.0
+
+[node name="AlgaeEnergy" type="Label" parent="."]
+offset_left = 320.0
+offset_top = 32.0
+offset_right = 448.0
+offset_bottom = 55.0
+
+[node name="AlgaeCumulative" type="Label" parent="."]
+offset_left = 320.0
+offset_top = 56.0
+offset_right = 448.0
+offset_bottom = 79.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
 [node name="Herbivore" parent="." instance=ExtResource("1_sul5r")]
-position = Vector2(608, 496)
+position = Vector2(96, 160)
 mass = 10.0
 gravity_scale = 0.0
 linear_damp = 1.0
 energy = 1000000
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
