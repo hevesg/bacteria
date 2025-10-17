@@ -11,7 +11,7 @@ script = ExtResource("1_0sr1o")
 [node name="PetriDish" parent="." instance=ExtResource("2_7h61r")]
 position = Vector2(128, 128)
 size = Vector2i(4, 4)
-initial_energy_per_area = 1000000
+initial_energy_per_area = 300000
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
@@ -24,39 +24,48 @@ gravity_scale = 0.0
 linear_damp = 1.0
 energy = 1000000
 
+[node name="AreaEnergy" parent="." instance=ExtResource("4_kelw5")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 320.0
+offset_top = 64.0
+offset_right = 576.0
+offset_bottom = 88.0
+title_text = "Area"
+
 [node name="AlgaeNumber" parent="." instance=ExtResource("4_kelw5")]
 offset_left = 320.0
-offset_top = 128.0
-offset_right = 384.0
-offset_bottom = 192.0
+offset_top = 96.0
+offset_right = 448.0
+offset_bottom = 120.0
 title_text = "Algae"
 
 [node name="AlgaeAliveNumber" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 384.0
-offset_top = 128.0
-offset_right = 440.0
-offset_bottom = 192.0
+offset_left = 320.0
+offset_top = 120.0
+offset_right = 448.0
+offset_bottom = 144.0
 title_text = "Alive"
 
 [node name="AlgaeDeadNumber" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 440.0
-offset_top = 128.0
-offset_right = 496.0
-offset_bottom = 192.0
+offset_left = 320.0
+offset_top = 144.0
+offset_right = 448.0
+offset_bottom = 168.0
 title_text = "Dead"
 
 [node name="AlgaeEnergy" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 496.0
-offset_top = 128.0
+offset_left = 320.0
+offset_top = 176.0
 offset_right = 576.0
-offset_bottom = 192.0
+offset_bottom = 200.0
 title_text = "Energy"
 
 [node name="AlgaeCumulative" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 576.0
-offset_top = 128.0
-offset_right = 696.0
-offset_bottom = 192.0
+offset_left = 320.0
+offset_top = 200.0
+offset_right = 576.0
+offset_bottom = 224.0
 title_text = "Cumulative"
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

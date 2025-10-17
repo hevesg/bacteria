@@ -47,7 +47,7 @@ func _update_wall(
 	position_value: int
 ) -> void:
 	if wall:
-		wall.scale.x = scale_value
+		wall.scale.x = scale_value + 1
 		if move_on_horizontal_axis:
 			wall.position.x = size.x * position_value * Globals.HALF_AREA_SIZE
 		else:

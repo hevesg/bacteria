@@ -4,16 +4,18 @@
 
 [node name="DefinitionListItem" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 128.0
-offset_bottom = 64.0
+anchor_right = 0.222
+anchor_bottom = 0.034
+offset_right = 0.255981
+offset_bottom = 0.0639992
 script = ExtResource("1_kl5pi")
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 23.0
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_bottom = -1.0
 grow_horizontal = 2
 text = "Title"
 clip_text = true
@@ -23,11 +25,12 @@ uppercase = true
 [node name="Description" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.5
+anchor_left = 0.5
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Description"
+horizontal_alignment = 2
 clip_text = true
 text_overrun_behavior = 4
