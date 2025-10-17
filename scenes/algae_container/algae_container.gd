@@ -12,3 +12,7 @@ func spawn(pos: Vector2, rot: float, initial_energy: int):
 	add_child(new_algae)
 	spawned_algae.emit(new_algae)
 	return new_algae
+
+func empty():
+	for child in get_children():
+		child.queue_free()
