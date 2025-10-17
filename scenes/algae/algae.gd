@@ -7,8 +7,7 @@ func _process(delta: float) -> void:
 		_suckEnergy(int(delta * Globals.TEN_THOUSAND))
 		energy -= int(delta * Globals.THOUSAND)
 		if energy >= split_energy:
-			var algae_scene = load("res://scenes/algae/algae.tscn")
-			split(algae_scene)
+			split()
 		if energy <= 0:
 			die()
 	else:

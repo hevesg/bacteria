@@ -19,22 +19,17 @@ func jet(directional_strength: float, torque_strength: float = 0.0) -> void:
 	apply_impulse(Vector2.UP.rotated(rotation) * directional_strength)
 	apply_torque_impulse(torque_strength)
 	
-func split(scene: PackedScene) -> void:
+func split() -> void:
 	if get_parent().spawn:
 		var new_organism = get_parent().spawn(
 			Vector2(position.x + 10.0, position.y + 10),
 			rotation - PI,
 			half()
 		)
-		get_parent().add_child(new_organism)
 		new_organism.jet(
 			Globals.HUNDRED * new_organism.mass,
 			randf_range(-Globals.HUNDRED, Globals.HUNDRED) * new_organism.mass
 		)
-	jet(
-		Globals.HUNDRED * mass,
-		randf_range(-Globals.HUNDRED, Globals.HUNDRED) * mass
-	)
 
 func _rot(amount: int) -> int:
 	if current_area:

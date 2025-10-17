@@ -3,15 +3,15 @@ class_name Game extends Node2D
 @onready var areas: Node2D = $PetriDish/Areas
 @onready var algaeContainer: AlgaeContainer = $PetriDish/AlgaeContainer
 
-@onready var algaeNumber: KeyValueInfo = $AlgaeNumber
-@onready var algaeAliveNumber: KeyValueInfo = $AlgaeAliveNumber
-@onready var algaeDeadNumber: KeyValueInfo = $AlgaeDeadNumber
-@onready var algaeEnergy: KeyValueInfo = $AlgaeEnergy
-@onready var algaeCumulative: KeyValueInfo = $AlgaeCumulative
+@onready var algaeNumber: DefinitionListItem = $AlgaeNumber
+@onready var algaeAliveNumber: DefinitionListItem = $AlgaeAliveNumber
+@onready var algaeDeadNumber: DefinitionListItem = $AlgaeDeadNumber
+@onready var algaeEnergy: DefinitionListItem = $AlgaeEnergy
+@onready var algaeCumulative: DefinitionListItem = $AlgaeCumulative
 
 func _on_timer_timeout() -> void:
 	var number = algaeContainer.get_child_count()
-	algaeNumber.info_value = number
+	algaeNumber.description_text = number
 	
 	var total_energy = 0
 	var total_cumulative_energy = 0
@@ -27,7 +27,7 @@ func _on_timer_timeout() -> void:
 			else:
 				dead = dead + 1
 	
-	algaeEnergy.info_value = total_energy
-	algaeCumulative.info_value = total_cumulative_energy
-	algaeAliveNumber.info_value = alive
-	algaeDeadNumber.info_value = dead
+	algaeEnergy.description_text = total_energy
+	algaeCumulative.description_text = total_cumulative_energy
+	algaeAliveNumber.description_text = alive
+	algaeDeadNumber.description_text = dead

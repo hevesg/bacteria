@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://d32tslop45hq" path="res://scenes/game/game.gd" id="1_0sr1o"]
 [ext_resource type="PackedScene" uid="uid://bvwtl1p6udhdk" path="res://scenes/herbivore/herbivore.tscn" id="1_sul5r"]
 [ext_resource type="PackedScene" uid="uid://bjs1drfks6vxg" path="res://scenes/petri_dish/petri_dish.tscn" id="2_7h61r"]
-[ext_resource type="PackedScene" uid="uid://smumb2s8gbbb" path="res://scenes/key_value_info/key_value_info.tscn" id="4_kelw5"]
+[ext_resource type="PackedScene" uid="uid://0v2gy155h58" path="res://scenes/definition_list_item/definition_list_item.tscn" id="4_kelw5"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_0sr1o")
@@ -25,23 +25,38 @@ linear_damp = 1.0
 energy = 1000000
 
 [node name="AlgaeNumber" parent="." instance=ExtResource("4_kelw5")]
-position = Vector2(296, 0)
-label_text = "Algae"
+offset_left = 320.0
+offset_top = 128.0
+offset_right = 384.0
+offset_bottom = 192.0
+title_text = "Algae"
 
 [node name="AlgaeAliveNumber" parent="." instance=ExtResource("4_kelw5")]
-position = Vector2(320, 24)
-label_text = "Alive"
+offset_left = 384.0
+offset_top = 128.0
+offset_right = 440.0
+offset_bottom = 192.0
+title_text = "Alive"
 
 [node name="AlgaeDeadNumber" parent="." instance=ExtResource("4_kelw5")]
-position = Vector2(320, 48)
-label_text = "Dead"
+offset_left = 440.0
+offset_top = 128.0
+offset_right = 496.0
+offset_bottom = 192.0
+title_text = "Dead"
 
 [node name="AlgaeEnergy" parent="." instance=ExtResource("4_kelw5")]
-position = Vector2(320, 72)
-label_text = "Energy"
+offset_left = 496.0
+offset_top = 128.0
+offset_right = 576.0
+offset_bottom = 192.0
+title_text = "Energy"
 
 [node name="AlgaeCumulative" parent="." instance=ExtResource("4_kelw5")]
-position = Vector2(344, 96)
-label_text = "Cumulative"
+offset_left = 576.0
+offset_top = 128.0
+offset_right = 696.0
+offset_bottom = 192.0
+title_text = "Cumulative"
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
