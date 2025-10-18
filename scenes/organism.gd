@@ -6,10 +6,10 @@ var _alive: bool = true:
 		if not _alive and sprite:
 			sprite.modulate = Color(1.0,1.0,1.0,0.5)
 
-func isAlive() -> bool:
+func is_alive() -> bool:
 	return _alive
 
-func isDead() -> bool:
+func is_dead() -> bool:
 	return not _alive
 
 func die() -> void:

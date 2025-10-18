@@ -3,7 +3,7 @@ class_name Algae extends Organism
 var split_energy: int = 2 * Globals.HUNDRED_THOUSAND
 
 func _process(delta: float) -> void:
-	if isAlive():
+	if is_alive():
 		_suckEnergy(int(delta * Globals.TEN_THOUSAND))
 		energy -= int(delta * Globals.THOUSAND)
 		if energy >= split_energy:

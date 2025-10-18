@@ -36,6 +36,7 @@ var current_area: DishArea = null:
 				value
 			)
 		current_area = value
+
 func getForce() -> float:
 	return linear_velocity.length() * mass
 
@@ -57,7 +58,7 @@ func _ready() -> void:
 	gravity_scale = 0
 	linear_damp = 1
 
-func _update_scale(node: Node2D,new_scale: float) -> void:
+func _update_scale(node: Node2D, new_scale: float) -> void:
 	if node:
 		node.scale = Vector2.ONE * new_scale
 

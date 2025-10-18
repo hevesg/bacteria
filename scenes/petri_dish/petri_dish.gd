@@ -1,10 +1,10 @@
 @tool
 class_name PetriDish extends Node2D
 
-@onready var northernWall: StaticBody2D = $NorthernWall
-@onready var easternWall: StaticBody2D = $EasternWall
-@onready var southernWall: StaticBody2D = $SouthernWall
-@onready var westernWall: StaticBody2D = $WesternWall
+@onready var _northern_wall: StaticBody2D = $NorthernWall
+@onready var _eastern_wall: StaticBody2D = $EasternWall
+@onready var _southern_wall: StaticBody2D = $SouthernWall
+@onready var _western_wall: StaticBody2D = $WesternWall
 
 @onready var areas: Node2D = $Areas
 @onready var algae_container = $AlgaeContainer
@@ -44,10 +44,10 @@ func _ready() -> void:
 	initial_algae = initial_algae
 
 func _update_walls() -> void:
-	_update_wall(northernWall, size.x, false, -1)
-	_update_wall(southernWall, size.x, false, 1)
-	_update_wall(easternWall, size.y, true, 1)
-	_update_wall(westernWall, size.y, true, -1)
+	_update_wall(_northern_wall, size.x, false, -1)
+	_update_wall(_southern_wall, size.x, false, 1)
+	_update_wall(_eastern_wall, size.y, true, 1)
+	_update_wall(_western_wall, size.y, true, -1)
 	
 func _update_wall(
 	wall: StaticBody2D,
@@ -65,8 +65,8 @@ func _update_wall(
 func _update_areas() -> void:
 	if areas:
 		var areas_offset = Vector2i(
-			-(size.x - 1) * Globals.HALF_AREA_SIZE,
-			-(size.y - 1) * Globals.HALF_AREA_SIZE
+			-(size.x - 1) * int(Globals.HALF_AREA_SIZE),
+			-(size.y - 1) * int(Globals.HALF_AREA_SIZE)
 		)
 
 		for child in areas.get_children():
