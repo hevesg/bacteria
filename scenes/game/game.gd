@@ -10,6 +10,7 @@ class_name Game extends Node2D
 @onready var algaeDeadNumber: DefinitionListItem = $AlgaeDeadNumber
 @onready var algaeEnergy: DefinitionListItem = $AlgaeEnergy
 @onready var algaeCumulative: DefinitionListItem = $AlgaeCumulative
+@onready var totalEnergy: DefinitionListItem = $TotalEnergy
 
 func _on_timer_timeout() -> void:
 	var number = algaeContainer.get_child_count()
@@ -39,3 +40,4 @@ func _on_timer_timeout() -> void:
 	algaeAliveNumber.description_text = alive
 	algaeDeadNumber.description_text = dead
 	areaEnergy.description_text = area_total_energy
+	totalEnergy.description_text = total_cumulative_energy + area_total_energy

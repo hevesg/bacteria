@@ -21,10 +21,12 @@ func jet(directional_strength: float, torque_strength: float = 0.0) -> void:
 	
 func split() -> void:
 	if get_parent().spawn:
+		var _half = half()
 		var new_organism = get_parent().spawn(
 			Vector2(position.x + 10.0, position.y + 10),
 			rotation - PI,
-			half()
+			_half[0],
+			_half[1]
 		)
 		new_organism.jet(
 			Globals.HUNDRED * new_organism.mass,

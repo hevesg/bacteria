@@ -100,5 +100,6 @@ func _update_algae():
 			algae_container.spawn(
 				area.position,
 				randf() * 2 * PI,
+				Globals.HUNDRED_THOUSAND,
 				Globals.HUNDRED_THOUSAND
 			)

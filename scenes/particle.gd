@@ -39,15 +39,18 @@ var current_area: DishArea = null:
 func getForce() -> float:
 	return linear_velocity.length() * mass
 
-func set_initial_energy(amount: int):
+func set_initial_energy(amount: int, cumulative: int = 0):
 	energy = amount
-	_cumulative_energy = 0
+	_cumulative_energy = cumulative
 
-func half() -> int:
+func half() -> Array[int]:
 	var amount: int = int(energy / 2.0)
+	var cumulative: int = int(_cumulative_energy / 2.0)
+	
 	energy -= amount
+	_cumulative_energy -= cumulative
 	_setMass(float(energy) / Globals.ENERGY_PER_SIZE)
-	return amount
+	return [amount, cumulative]
 
 func _ready() -> void:
 	energy = energy
