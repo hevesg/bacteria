@@ -1,7 +1,8 @@
 class_name Game extends Node2D
 
 @onready var areas: Node2D = $PetriDish/Areas
-@onready var algae_container: AlgaeContainer = $PetriDish/AlgaeContainer
+@onready var algae_container: OrganismContainer = $PetriDish/AlgaeContainer
+@onready var herbivore_container: OrganismContainer = $PetriDish/HerbivoreContainer
 
 @onready var area_energy_info: DefinitionListItem = $AreaEnergy
 

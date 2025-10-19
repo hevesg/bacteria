@@ -12,6 +12,10 @@ radius = 8.0
 
 [node name="Herbivore" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_71fjf")
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 10
+linear_damp = 1.0
 script = ExtResource("1_71fjf")
 
 [node name="Sprite" type="Sprite2D" parent="."]
@@ -23,4 +27,5 @@ shape = SubResource("CircleShape2D_gw1la")
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

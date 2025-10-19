@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkt3tbwnxo0hc"]
+
+[ext_resource type="Script" uid="uid://cfsv4d4uukd5o" path="res://scenes/organism_container/organism_container.gd" id="1_2jeky"]
+
+[node name="OrganismContainer" type="Node2D"]
+script = ExtResource("1_2jeky")

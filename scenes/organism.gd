@@ -1,5 +1,7 @@
 class_name Organism extends Particle
 
+var _split_energy: int = Globals.BILLION
+
 var _alive: bool = true:
 	set(value):
 		_alive = value
@@ -14,6 +16,22 @@ func is_dead() -> bool:
 
 func die() -> void:
 	_alive = false
+
+func set_split_energy(amount: int) -> void:
+	_split_energy = amount
+
+func _process(delta: float) -> void:
+	if is_dead():
+		if _cumulative_energy > 0:
+			_rot(int(delta * Globals.TEN_THOUSAND))
+		else:
+			queue_free()
+	else:
+		energy -= int(delta * Globals.THOUSAND)
+		if energy >= _split_energy:
+			split()
+		if energy <= 0:
+			die()
 
 func jet(directional_strength: float, torque_strength: float = 0.0) -> void:
 	apply_impulse(Vector2.UP.rotated(rotation) * directional_strength)
