@@ -8,10 +8,10 @@
 script = ExtResource("1_0sr1o")
 
 [node name="PetriDish" parent="." instance=ExtResource("2_7h61r")]
-position = Vector2(256, 256)
-size = Vector2i(6, 6)
-initial_energy_per_area = 300000
-initial_algae = 6
+position = Vector2(352, 256)
+size = Vector2i(9, 6)
+initial_energy_per_area = 500000
+initial_algae = 20
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
@@ -21,51 +21,51 @@ autostart = true
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 512.0
+offset_left = 704.0
 offset_top = 64.0
-offset_right = 768.0
+offset_right = 960.0
 offset_bottom = 88.0
 title_text = "Area Energy"
 
 [node name="AlgaeNumber" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 512.0
+offset_left = 704.0
 offset_top = 96.0
-offset_right = 640.0
+offset_right = 832.0
 offset_bottom = 120.0
 title_text = "Algae"
 
 [node name="AlgaeAliveNumber" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 512.0
+offset_left = 704.0
 offset_top = 120.0
-offset_right = 640.0
+offset_right = 832.0
 offset_bottom = 144.0
 title_text = "Alive"
 
 [node name="AlgaeDeadNumber" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 512.0
+offset_left = 704.0
 offset_top = 144.0
-offset_right = 640.0
+offset_right = 832.0
 offset_bottom = 168.0
 title_text = "Dead"
 
 [node name="AlgaeEnergy" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 512.0
+offset_left = 704.0
 offset_top = 176.0
-offset_right = 768.0
+offset_right = 960.0
 offset_bottom = 200.0
 title_text = "Algae Energy"
 
 [node name="AlgaeCumulative" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 512.0
+offset_left = 704.0
 offset_top = 200.0
-offset_right = 768.0
+offset_right = 960.0
 offset_bottom = 224.0
 title_text = "Cumulative"
 
 [node name="TotalEnergy" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 512.0
+offset_left = 704.0
 offset_top = 232.0
-offset_right = 768.0
+offset_right = 960.0
 offset_bottom = 256.0
 title_text = "Total Energy"
 

@@ -41,15 +41,22 @@ func split() -> void:
 	if get_parent().spawn:
 		var _half = half()
 		var new_organism = get_parent().spawn(
-			Vector2(position.x + 10.0, position.y + 10),
+			position,
 			rotation - PI,
 			_half[0],
 			_half[1]
 		)
+		position += Vector2.UP.rotated(rotation) * 10.0
+		new_organism.position += Vector2.UP.rotated(new_organism.rotation) * 10.0
 		new_organism.jet(
 			Globals.HUNDRED * new_organism.mass,
 			randf_range(-Globals.HUNDRED, Globals.HUNDRED) * new_organism.mass
 		)
+		jet(
+			Globals.HUNDRED * new_organism.mass,
+			randf_range(-Globals.HUNDRED, Globals.HUNDRED) * new_organism.mass
+		)
+		
 
 func _rot(amount: int) -> int:
 	if current_area:

@@ -22,13 +22,13 @@ var size: Vector2i = Vector2i(10, 10):
 		_update_areas()
 
 @export_range(
-	Globals.HUNDRED_THOUSAND,
+	0,
 	Globals.MILLION,
 	Globals.HUNDRED_THOUSAND
 )
 var initial_energy_per_area: int = Globals.HUNDRED_THOUSAND:
 	set(value):
-		initial_energy_per_area = clampi(value, Globals.HUNDRED_THOUSAND, Globals.MILLION)
+		initial_energy_per_area = clampi(value, 0, Globals.MILLION)
 		if areas:
 			for child in areas.get_children():
 				child.energy = initial_energy_per_area
@@ -98,7 +98,7 @@ func _update_algae():
 	
 		for area in selected_areas:
 			algae_container.spawn(
-				area.position,
+				area.get_random_position() + area.position,
 				randf() * 2 * PI,
 				Globals.HUNDRED_THOUSAND,
 				Globals.HUNDRED_THOUSAND

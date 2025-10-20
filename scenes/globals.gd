@@ -19,3 +19,9 @@ const ENERGY_TRANSFER_AMOUNT: int = TEN
 
 const AREA_SIZE: float = 64.0
 const HALF_AREA_SIZE: float = AREA_SIZE / 2
+
+func get_random_point_of(rect: Rect2) -> Vector2:
+	return Vector2(
+		randf_range(rect.position.x, rect.end.x),
+		randf_range(rect.position.y, rect.end.y),
+	)

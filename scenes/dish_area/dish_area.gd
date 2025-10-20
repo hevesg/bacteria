@@ -21,6 +21,12 @@ func transfer_energy_to(amount: int, area: DishArea) -> void:
 	energy -= amount
 	area.energy += amount
 
+func get_random_position() -> Vector2:
+	if sprite:
+		return Globals.get_random_point_of(sprite.get_rect()) / 2.0
+	else:
+		return Vector2()
+
 func _on_body_entered(body: Node2D) -> void:
 	if body is Particle:
 		body.current_area = self
