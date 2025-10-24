@@ -6,64 +6,49 @@ var collision: CollisionShape2D = $Collision
 @onready
 var sprite: Sprite2D = $Sprite
 
-var _cumulative_energy: int = 0
+var energy: TallyInt = TallyInt.new()
 
-@export_range(
-	Globals.HUNDRED_THOUSAND,
-	Globals.MILLION,
-	Globals.HUNDRED_THOUSAND
-)
-var energy: int = 0:
-	set(value):
-		value = clampi(value, 0, value)
+func init_particle(current_energy: int, cumulative_energy: int) -> void:
+	energy = TallyInt.new(current_energy, cumulative_energy)
+	_set_mass()
 
-		if Engine.is_editor_hint():
-			energy = value
-			_setMass(float(energy) / Globals.ENERGY_PER_SIZE)
-		else:
-			if value > energy:
-				_cumulative_energy += value - energy
-			energy = value
+func set_energy(value: int) -> void:
+	energy.current = value
+	_set_mass()
 
-			if float(energy) / Globals.ENERGY_PER_SIZE >= mass:
-				_setMass(float(energy) / Globals.ENERGY_PER_SIZE)
+func half_energy() -> TallyInt:
+	var value = energy.split()
+	_set_mass()
+	return value
 
 var current_area: DishArea = null:
 	set(value):
 		if current_area:
 			current_area.transfer_energy_to(
-				int(getForce() * Globals.ENERGY_TRANSFER_AMOUNT),
+				int(force * Globals.ENERGY_TRANSFER_AMOUNT),
 				value
 			)
 		current_area = value
 
-func getForce() -> float:
-	return linear_velocity.length() * mass
-
-func set_initial_energy(amount: int, cumulative: int = 0):
-	energy = amount
-	_cumulative_energy = cumulative
-
-func half() -> Array[int]:
-	var amount: int = int(energy / 2.0)
-	var cumulative: int = int(_cumulative_energy / 2.0)
-	
-	energy -= amount
-	_cumulative_energy -= cumulative
-	_setMass(float(energy) / Globals.ENERGY_PER_SIZE)
-	return [amount, cumulative]
+var force: float:
+	get():
+		return linear_velocity.length() * mass
 
 func _ready() -> void:
-	energy = energy
 	gravity_scale = 0
 	linear_damp = 1
+
+func _physics_process(delta: float) -> void:
+	_set_mass()
 
 func _update_scale(node: Node2D, new_scale: float) -> void:
 	if node:
 		node.scale = Vector2.ONE * new_scale
 
-func _setMass(amount: float) -> void:
-	mass = amount
-	var new_scale = pow(mass, 1.0 / 3.0)
-	_update_scale(sprite, new_scale)
-	_update_scale(collision, new_scale)
+func _set_mass() -> void:
+	var value = float(energy.peak) / Globals.ENERGY_PER_SIZE
+	if energy.peak > mass:
+		mass = value
+		var new_scale = pow(mass, 1.0 / 3.0)
+		_update_scale(sprite, new_scale)
+		_update_scale(collision, new_scale)

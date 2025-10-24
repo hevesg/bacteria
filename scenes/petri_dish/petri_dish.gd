@@ -83,7 +83,7 @@ func _update_areas() -> void:
 				area.energy = initial_energy_per_area
 
 func _update_algae():
-	if algae_container:
+	if algae_container and not Engine.is_editor_hint():
 		algae_container.empty()
 
 		var areas_children = areas.get_children().duplicate()
@@ -101,5 +101,6 @@ func _update_algae():
 				area.get_random_position() + area.position,
 				randf() * 2 * PI,
 				Globals.HUNDRED_THOUSAND,
-				Globals.HUNDRED_THOUSAND
+				Globals.HUNDRED_THOUSAND,
+				2 * Globals.HUNDRED_THOUSAND
 			)

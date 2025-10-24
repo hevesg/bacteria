@@ -61,7 +61,7 @@ func _is_point_in_sprite(point: Vector2, sprite: Sprite2D) -> bool:
 	)
 	return sprite_rect.has_point(point)
 
-func _is_valid_drop_location(pos: Vector2) -> bool:
+func _is_valid_drop_location() -> bool:
 	if drop_area:
 		return true
 	return true

@@ -15,11 +15,14 @@ var energy: int = 0:
 				1.0,
 				float(energy) / Globals.MILLION
 			)
-	
-func transfer_energy_to(amount: int, area: DishArea) -> void:
+
+func remove_energy(amount: int) -> int:
 	amount = clampi(amount, 0, energy)
 	energy -= amount
-	area.energy += amount
+	return amount
+
+func transfer_energy_to(amount: int, area: DishArea) -> void:
+	area.energy += remove_energy(amount)
 
 func get_random_position() -> Vector2:
 	if sprite:

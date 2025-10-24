@@ -1,18 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://dd70v5mqlwcdi"]
+[gd_scene load_steps=6 format=3 uid="uid://dd70v5mqlwcdi"]
 
 [ext_resource type="Script" uid="uid://d32tslop45hq" path="res://scenes/game/game.gd" id="1_0sr1o"]
 [ext_resource type="PackedScene" uid="uid://bjs1drfks6vxg" path="res://scenes/petri_dish/petri_dish.tscn" id="2_7h61r"]
 [ext_resource type="PackedScene" uid="uid://0v2gy155h58" path="res://scenes/definition_list_item/definition_list_item.tscn" id="4_kelw5"]
 [ext_resource type="PackedScene" uid="uid://chociut5034bu" path="res://scenes/herbivore_dropper/herbivore_dropper.tscn" id="4_lfrn8"]
+[ext_resource type="PackedScene" uid="uid://detivjf1disjb" path="res://scenes/system_info/system_info.tscn" id="5_lfrn8"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_0sr1o")
 
 [node name="PetriDish" parent="." instance=ExtResource("2_7h61r")]
-position = Vector2(352, 256)
-size = Vector2i(9, 6)
-initial_energy_per_area = 500000
-initial_algae = 20
+position = Vector2(352, 352)
+size = Vector2i(11, 11)
+initial_energy_per_area = 200000
+initial_algae = 33
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
@@ -22,70 +23,76 @@ autostart = true
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 704.0
+offset_left = 768.0
 offset_top = 64.0
-offset_right = 960.0
+offset_right = 1024.0
 offset_bottom = 88.0
 title_text = "Area Energy"
 
 [node name="AlgaeNumber" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 704.0
+offset_left = 768.0
 offset_top = 96.0
-offset_right = 832.0
+offset_right = 896.0
 offset_bottom = 120.0
 title_text = "Algae"
 
 [node name="AlgaeAliveNumber" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 704.0
+offset_left = 768.0
 offset_top = 120.0
-offset_right = 832.0
+offset_right = 896.0
 offset_bottom = 144.0
 title_text = "Alive"
 
 [node name="AlgaeDeadNumber" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 704.0
+offset_left = 768.0
 offset_top = 144.0
-offset_right = 832.0
+offset_right = 896.0
 offset_bottom = 168.0
 title_text = "Dead"
 
 [node name="AlgaeEnergy" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 704.0
+offset_left = 768.0
 offset_top = 176.0
-offset_right = 960.0
+offset_right = 1024.0
 offset_bottom = 200.0
 title_text = "Algae Energy"
 
 [node name="AlgaeCumulative" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 704.0
+offset_left = 768.0
 offset_top = 200.0
-offset_right = 960.0
+offset_right = 1024.0
 offset_bottom = 224.0
 title_text = "Cumulative"
 
 [node name="TotalEnergy" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 704.0
+offset_left = 768.0
 offset_top = 288.0
-offset_right = 960.0
+offset_right = 1024.0
 offset_bottom = 312.0
 title_text = "Total Energy"
 
 [node name="HerbivoreEnergy" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 704.0
+offset_left = 768.0
 offset_top = 232.0
-offset_right = 1024.0
+offset_right = 1088.0
 offset_bottom = 256.0
 title_text = "Herb Energy"
 
 [node name="HerbivoreCumulative" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 704.0
+offset_left = 768.0
 offset_top = 256.0
-offset_right = 1024.0
+offset_right = 1088.0
 offset_bottom = 280.0
 title_text = "Herb Cumulative"
 
 [node name="HerbivoreDropper" parent="." instance=ExtResource("4_lfrn8")]
-position = Vector2(720, 408)
+position = Vector2(784, 360)
+
+[node name="SystemInfo" parent="." instance=ExtResource("5_lfrn8")]
+offset_left = 768.0
+offset_top = 408.0
+offset_right = 1088.0
+offset_bottom = 552.0
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="on_drop_sprite" from="HerbivoreDropper" to="." method="_on_herbivore_drop"]
