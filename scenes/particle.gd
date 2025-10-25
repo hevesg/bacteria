@@ -38,9 +38,6 @@ func _ready() -> void:
 	gravity_scale = 0
 	linear_damp = 1
 
-func _physics_process(delta: float) -> void:
-	_set_mass()
-
 func _update_scale(node: Node2D, new_scale: float) -> void:
 	if node:
 		node.scale = Vector2.ONE * new_scale

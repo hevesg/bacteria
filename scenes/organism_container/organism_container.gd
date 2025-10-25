@@ -21,12 +21,12 @@ func spawn(
 	var new_organism = organism_scene.instantiate()
 	new_organism.position = pos
 	new_organism.rotation = rot
+	add_child(new_organism)
 	new_organism.init_organism(
 		initial_energy,
 		initial_cumulative_energy,
 		energy_when_split
 	)
-	add_child(new_organism)
 	on_new_organism.emit(new_organism)
 	return new_organism
 

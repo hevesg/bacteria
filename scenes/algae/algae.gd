@@ -11,7 +11,7 @@ func _process(delta: float) -> void:
 func _suckEnergy(amount: int) -> int:
 	if current_area:
 		amount = current_area.remove_energy(amount)
-		energy.current += amount
+		set_energy(energy.current + amount)
 		return amount
 	else:
 		return 0

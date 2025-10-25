@@ -1,0 +1,70 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0vpou7xshcto"]
+
+[ext_resource type="Script" uid="uid://ddjh3e6c86rfi" path="res://scenes/system_info/system_info.gd" id="1_yfefm"]
+
+[node name="SystemInfoPanel" type="PanelContainer"]
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.159
+offset_bottom = 0.0639954
+script = ExtResource("1_yfefm")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="FpsLabel" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FPS"
+
+[node name="FpsValue" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FPS"
+horizontal_alignment = 2
+
+[node name="StaticMemoryLabel" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Static Memory"
+
+[node name="StaticMemoryValue" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Static Memory"
+horizontal_alignment = 2
+
+[node name="StaticMemoryMaxLabel" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Max Static  Memory"
+
+[node name="StaticMemoryMaxValue" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Dynamic Memory"
+horizontal_alignment = 2
+
+[node name="ObjectCountLabel" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Object Count"
+
+[node name="ObjectCountValue" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Object Count"
+horizontal_alignment = 2
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
