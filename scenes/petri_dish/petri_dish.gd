@@ -7,7 +7,6 @@ class_name PetriDish extends Node2D
 @onready var _western_wall: StaticBody2D = $WesternWall
 
 @onready var areas: Node2D = $Areas
-@onready var algae_container = $AlgaeContainer
 
 const AREA_SCENE: PackedScene = preload("res://scenes/dish_area/dish_area.tscn")
 
@@ -37,11 +36,11 @@ var initial_energy_per_area: int = Globals.HUNDRED_THOUSAND:
 var initial_algae: int = 0:
 	set(value):
 		initial_algae = clampi(value, 0, size.x * size.y)
-		_update_algae()
 	
 func _ready() -> void:
-	size = size
-	initial_algae = initial_algae
+	_update_walls()
+	_update_areas()
+	_update_algae()
 
 func _update_walls() -> void:
 	_update_wall(_northern_wall, size.x, false, -1)
@@ -83,24 +82,27 @@ func _update_areas() -> void:
 				area.energy = initial_energy_per_area
 
 func _update_algae():
-	if algae_container and not Engine.is_editor_hint():
-		algae_container.empty()
+	if not Engine.is_editor_hint():
+		var container = get_node_or_null("AlgaeContainer")
 
-		var areas_children = areas.get_children().duplicate()
+		if container:
+			container.empty()
 
-		var selected_areas = []
-		for i in range(initial_algae):
-			if areas_children.size() > 0:
-				var random_index = randi() % areas_children.size()
-				var selected_area = areas_children[random_index]
-				selected_areas.append(selected_area)
-				areas_children.remove_at(random_index)
+			var areas_children = areas.get_children().duplicate()
+
+			var selected_areas = []
+			for i in range(initial_algae):
+				if areas_children.size() > 0:
+					var random_index = randi() % areas_children.size()
+					var selected_area = areas_children[random_index]
+					selected_areas.append(selected_area)
+					areas_children.remove_at(random_index)
 	
-		for area in selected_areas:
-			algae_container.spawn(
-				area.get_random_position() + area.position,
-				randf() * 2 * PI,
-				Globals.HUNDRED_THOUSAND,
-				Globals.HUNDRED_THOUSAND,
-				2 * Globals.HUNDRED_THOUSAND
-			)
+			for area in selected_areas:
+				container.spawn(
+					area.get_random_position() + area.position,
+					randf() * 2 * PI,
+					Globals.HUNDRED_THOUSAND,
+					Globals.HUNDRED_THOUSAND,
+						2 * Globals.HUNDRED_THOUSAND
+				)
