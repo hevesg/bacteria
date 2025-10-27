@@ -21,7 +21,7 @@ var size: Vector2i = Vector2i(10, 10):
 		_update_areas()
 
 @export_range(
-	0,
+	2 * Globals.HUNDRED_THOUSAND,
 	Globals.MILLION,
 	Globals.HUNDRED_THOUSAND
 )
@@ -99,10 +99,12 @@ func _update_algae():
 					areas_children.remove_at(random_index)
 	
 			for area in selected_areas:
+				var algae_initial_energy = int(Globals.HUNDRED_THOUSAND * randf_range(1.0, 1.8))
 				container.spawn(
 					area.get_random_position() + area.position,
 					randf() * 2 * PI,
-					Globals.HUNDRED_THOUSAND,
+					algae_initial_energy,
 					Globals.HUNDRED_THOUSAND,
 						2 * Globals.HUNDRED_THOUSAND
 				)
+				area.energy -= algae_initial_energy

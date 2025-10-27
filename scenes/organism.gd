@@ -54,7 +54,7 @@ func jet(directional_strength: float, torque_strength: float = 0.0, burn_energy:
 	
 func split() -> void:
 	if get_parent().spawn:
-		var half = energy.split()
+		var half = half_energy()
 		var new_organism = get_parent().spawn(
 			position,
 			rotation - PI,
