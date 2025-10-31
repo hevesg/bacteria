@@ -45,15 +45,41 @@ func test_initialize_with_the_right_amount_of_nodes():
 
 func test_initialize_with_the_right_amount_of_connections():
 	neural_network = NeuralNetwork.new(1,2)
-	assert_int(neural_network._nodes[0]._connections.size()).is_equal(2)
-	assert_int(neural_network._nodes[1]._connections.size()).is_equal(0)
+	assert_int(neural_network._nodes[0]._outbound.size()).is_equal(2)
+	assert_int(neural_network._nodes[1]._inbound.size()).is_equal(1)
+	assert_int(neural_network._nodes[1]._outbound.size()).is_equal(0)
 	
 	neural_network = NeuralNetwork.new(1,2, [3])
-	assert_int(neural_network._nodes[0]._connections.size()).is_equal(3)
-	assert_int(neural_network._nodes[1]._connections.size()).is_equal(2)
+	assert_int(neural_network._nodes[0]._outbound.size()).is_equal(3)
+	assert_int(neural_network._nodes[0]._inbound.size()).is_equal(0)
+	assert_int(neural_network._nodes[1]._outbound.size()).is_equal(2)
+	assert_int(neural_network._nodes[1]._inbound.size()).is_equal(1)
 
 func test_clear_connections_in_a_node():
 	neural_network = NeuralNetwork.new(1,2)
-	assert_int(neural_network._nodes[0]._connections.size()).is_equal(2)
+	assert_int(neural_network._nodes[0]._outbound.size()).is_equal(2)
+	assert_int(neural_network._nodes[1]._inbound.size()).is_equal(1)
 	neural_network._nodes[0].clear()
-	assert_int(neural_network._nodes[0]._connections.size()).is_equal(0)
+	assert_int(neural_network._nodes[0]._outbound.size()).is_equal(0)
+	assert_int(neural_network._nodes[1]._inbound.size()).is_equal(0)
+
+func test_get_non_output_nodes():
+	neural_network = NeuralNetwork.new(1,2)
+	assert_int(neural_network.get_non_output_nodes().size()).is_equal(1)
+	
+	neural_network = NeuralNetwork.new(1,2, [3])
+	assert_int(neural_network.get_non_output_nodes().size()).is_equal(4)
+	
+	neural_network = NeuralNetwork.new(1,2, [3, 4])
+	assert_int(neural_network.get_non_output_nodes().size()).is_equal(8)
+
+func test_get_nodes_with_connections():
+	neural_network = NeuralNetwork.new(1,2)
+	assert_int(neural_network.get_nodes_with_outbound_connections().size()).is_equal(1)
+	
+	neural_network = NeuralNetwork.new(1,2, [3])
+	assert_int(neural_network.get_nodes_with_outbound_connections().size()).is_equal(4)
+	
+	neural_network = NeuralNetwork.new(1,2, [3, 4])
+	neural_network._nodes[1].clear()
+	assert_int(neural_network.get_nodes_with_outbound_connections().size()).is_equal(7)

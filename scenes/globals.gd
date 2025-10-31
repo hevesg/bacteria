@@ -26,6 +26,9 @@ func get_random_point_of(rect: Rect2) -> Vector2:
 		randf_range(rect.position.y, rect.end.y),
 	)
 
+func sigmoid(x: float) -> float:
+	return 1.0 / (1.0 + exp(-x))
+
 func format_number(number: int) -> String:
 	var number_str = str(number)
 	var formatted = ""
