@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bvwtl1p6udhdk"]
+[gd_scene load_steps=6 format=3 uid="uid://bvwtl1p6udhdk"]
 
 [ext_resource type="Script" uid="uid://cx2qd2ur5x1p1" path="res://scenes/herbivore/herbivore.gd" id="1_71fjf"]
 [ext_resource type="Texture2D" uid="uid://01sxpgv7f480" path="res://assets/herbivore.svg" id="2_71fjf"]
+[ext_resource type="Script" uid="uid://b0r86nvugkd4y" path="res://scenes/sensory_organ.gd" id="3_ukq4o"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_71fjf"]
 friction = 0.0
@@ -20,6 +21,9 @@ script = ExtResource("1_71fjf")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_71fjf")
+
+[node name="SensoryOrgan" type="Node2D" parent="."]
+script = ExtResource("3_ukq4o")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_gw1la")
