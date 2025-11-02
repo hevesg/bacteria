@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://u5ube7bpjpq2"]
+
+[ext_resource type="Script" uid="uid://dw22g7xbisowx" path="res://scenes/neural_network/neural_network_display.gd" id="1_4lhxx"]
+
+[node name="NeuralNetworkDisplay" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_4lhxx")

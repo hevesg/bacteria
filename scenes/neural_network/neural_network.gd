@@ -3,27 +3,48 @@ class_name NeuralNetwork extends Resource
 var _layers: Array[NetworkLayer] = []
 var _nodes: Array[NetworkNode] = []
 
+func get_layers() -> Array[NetworkLayer]:
+	return _layers.duplicate()
+
+func get_layer(index: int) -> NetworkLayer:
+	if index < _layers.size() and index >= 0:
+		return  _layers[index]
+	else:
+		return null
+	
+func get_nodes() -> Array[NetworkNode]:
+	return _nodes.duplicate()
+
 class NetworkLayer:
 	var _network: NeuralNetwork
-	var _index: int
 	var _nodes: Array[NetworkNode] = []
+
+	func get_nodes() -> Array[NetworkNode]:
+		return _nodes.duplicate()
+
+	func get_node(index: int) -> NetworkNode:
+		if index < _nodes.size() and index >= 0:
+			return _nodes[index]
+		else:
+			return null
 
 	func _init(network: NeuralNetwork) -> void:
 		_network = network
-		_index = network._layers.size()
 		
 	func add(node: NetworkNode) -> void:
 		_nodes.append(node)
 		
 	func next() -> NetworkLayer:
-		if (_index < _network._layers.size() - 1):
-			return _network._layers[_index + 1]
+		var index = _network.get_layers().find(self)
+		if (index < _network._layers.size() - 1):
+			return _network._layers[index + 1]
 		else:
 			return null
 		
 	func previous() -> NetworkLayer:
-		if (_index > 0):
-			return _network._layers[_index - 1]
+		var index = _network.get_layers().find(self)
+		if (index > 0):
+			return _network._layers[index - 1]
 		else:
 			return null
 		
@@ -35,8 +56,8 @@ class NetworkLayer:
 
 class NetworkNode:
 	var _layer: NetworkLayer
-	var _outbound: Dictionary[NetworkNode, NetworkConnection] = {}
-	var _inbound: Dictionary[NetworkNode, NetworkConnection] = {}
+	var _outbound_connections: Dictionary[NetworkNode, NetworkConnection] = {}
+	var _inbound_connections: Dictionary[NetworkNode, NetworkConnection] = {}
 	var _temp_value: float = 0.0
 	
 	func _init(layer: NetworkLayer) -> void:
@@ -44,22 +65,40 @@ class NetworkNode:
 	
 	func connectTo(other: NetworkNode, weight = null, bias = null) -> void:
 		var connection: NetworkConnection = NetworkConnection.new(self, other, weight, bias)
-		_outbound.set(other, connection)
-		other._inbound.set(self, connection)
+		_outbound_connections.set(other, connection)
+		other._inbound_connections.set(self, connection)
 		
 	
 	func disconnectFrom(other: NetworkNode) -> void:
-		if _outbound.has(other):
-			_outbound.erase(other)
-		if other._inbound.has(self):
-			other._inbound.erase(self)
+		if _outbound_connections.has(other):
+			_outbound_connections.erase(other)
+		if other._inbound_connections.has(self):
+			other._inbound_connections.erase(self)
 	
 	func clear() -> void:
 		# Collect keys first to avoid modifying dictionary during iteration
-		var keys = _outbound.keys()
+		var keys = _outbound_connections.keys()
 		for other in keys:
 			disconnectFrom(other)
 	
+	func get_outbound_connections() -> Dictionary[NetworkNode, NetworkConnection]:
+		return _outbound_connections.duplicate()
+	
+	func get_inbound_connections() -> Dictionary[NetworkNode, NetworkConnection]:
+		return _inbound_connections.duplicate()
+		
+	func get_outbound_connection_to(node: NetworkNode) -> NetworkConnection:
+		if _outbound_connections.has(node):
+			return _outbound_connections.get(node)
+		else:
+			return null
+		
+	func get_inbound_connection_from(node: NetworkNode) -> NetworkConnection:
+		if _inbound_connections.has(node):
+			return _inbound_connections.get(node)
+		else:
+			return null
+
 class NetworkConnection:
 	var _from: NetworkNode
 	var _to: NetworkNode
@@ -96,26 +135,6 @@ func _init(input_count: int = 1, output_count: int = 1, hidden_layers: Array[int
 			for other_node in next_layer._nodes:
 				node.connectTo(other_node)
 
-func get_non_output_nodes() -> Array[NetworkNode]:
-	var array: Array[NetworkNode] = []
-	for layer_index in range(_layers.size() - 1):
-		array.append_array(_layers[layer_index]._nodes)
-	return array
-
-func get_nodes_with_outbound_connections(size: int = 1) -> Array[NetworkNode]:
-	var array: Array[NetworkNode] = []
-	var nodes = get_non_output_nodes()
-	for node in nodes:
-		if node._outbound.size() >= size:
-			array.append(node)
-	return array
-
-func mutate_random_connection() -> void:
-	var nodes: Array[NetworkNode] = get_nodes_with_outbound_connections()
-	if nodes.size() > 0:
-		nodes.pick_random()._outbound.pick_random().mutate() 
-
-func remove_random_connection() -> void:
-	var nodes: Array[NetworkNode] = get_nodes_with_outbound_connections(2)
-	if nodes.size() > 0:
-		nodes.pick_random()._outbound.remove()
+func insert_layer_at(index: int) -> void:
+	if index > 0 and index < _layers.size():
+		_layers.insert(index, NetworkLayer.new(self))
