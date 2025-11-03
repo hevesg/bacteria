@@ -22,10 +22,29 @@ func _ready() -> void:
 		)
 	neural_network_display.set_neural_network(neural_network)
 
+func pick_random_non_output_neural_network_node():
+	return neural_network.get_nodes().filter(func(item): return not item.is_output()).pick_random()
+
 func add_connection() -> void:
-	var from_node = neural_network.get_nodes().filter(func(item): return not item.is_output()).pick_random()
+	var from_node = pick_random_non_output_neural_network_node()
 	var to_node = from_node.get_higher_nodes().pick_random()
 	from_node.connect_to(to_node)
+
+func split_connection() -> void:
+	var from_node = pick_random_non_output_neural_network_node()
+	if from_node.get_outbound_connections().size() > 0:
+		var to_node = from_node.get_outbound_connections().keys().pick_random()
+		var layer_index = (from_node.get_layer().get_index() + to_node.get_layer().get_index()) / 2
+		var layer
+		if from_node.get_layer().get_index() == layer_index:
+			layer = neural_network.insert_layer_at(layer_index + 1)
+		else:
+			layer = neural_network.get_layer(layer_index)
+		var new_node = layer.insert_node()
+		new_node.connect_to(to_node)
+		from_node.connect_to(new_node)
+		from_node.disconnect_from(to_node)
+		
 	
 func _on_timer_timeout() -> void:	
 	var area_total_energy = 0
@@ -35,6 +54,7 @@ func _on_timer_timeout() -> void:
 			area_total_energy += area.energy
 	
 	add_connection()
+	split_connection()
 	
 	area_energy_info.description_text = area_total_energy
 	
