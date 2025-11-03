@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dd70v5mqlwcdi"]
+[gd_scene load_steps=11 format=3 uid="uid://dd70v5mqlwcdi"]
 
 [ext_resource type="Script" uid="uid://d32tslop45hq" path="res://scenes/game/game.gd" id="1_0sr1o"]
 [ext_resource type="PackedScene" uid="uid://bjs1drfks6vxg" path="res://scenes/petri_dish/petri_dish.tscn" id="2_7h61r"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bvwtl1p6udhdk" path="res://scenes/herbivore/herbivore.tscn" id="5_2a8rs"]
 [ext_resource type="PackedScene" uid="uid://d0vpou7xshcto" path="res://scenes/system_info/system_info_panel.tscn" id="5_lfrn8"]
 [ext_resource type="PackedScene" uid="uid://dl8jxt1rwn0x8" path="res://scenes/organism_info_panel/organism_info_panel.tscn" id="6_5i0tg"]
+[ext_resource type="PackedScene" uid="uid://u5ube7bpjpq2" path="res://scenes/neural_network/neural_network_display.tscn" id="10_4j704"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_0sr1o")
@@ -35,17 +36,17 @@ autostart = true
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 1728.0
-offset_top = 240.0
-offset_right = 1984.0
-offset_bottom = 264.0
+offset_left = 1576.0
+offset_top = 360.0
+offset_right = 1832.0
+offset_bottom = 384.0
 title_text = "Area Energy"
 
 [node name="TotalEnergy" parent="." instance=ExtResource("4_kelw5")]
-offset_left = 1720.0
-offset_top = 320.0
-offset_right = 1976.0
-offset_bottom = 344.0
+offset_left = 1576.0
+offset_top = 416.0
+offset_right = 1832.0
+offset_bottom = 440.0
 title_text = "Total Energy"
 
 [node name="HerbivoreDropper" parent="." instance=ExtResource("4_lfrn8")]
@@ -72,6 +73,12 @@ offset_right = 1896.0
 offset_bottom = 1062.0
 title = "Herbivore"
 container = NodePath("../PetriDish/HerbivoreContainer")
+
+[node name="NeuralNetworkDisplay" parent="." instance=ExtResource("10_4j704")]
+offset_left = 1568.0
+offset_top = 32.0
+offset_right = 1888.0
+offset_bottom = 320.0
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="on_drop_sprite" from="HerbivoreDropper" to="." method="_on_herbivore_drop"]
