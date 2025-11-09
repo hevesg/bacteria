@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="HerbivoreBrain" load_steps=2 format=3 uid="uid://byk2q3ukvsjp2"]
+
+[ext_resource type="Script" uid="uid://dx873glponpqs" path="res://scenes/herbivore/herbivore_brain.gd" id="1_i3ymu"]
+
+[resource]
+script = ExtResource("1_i3ymu")
+metadata/_custom_type_script = "uid://dx873glponpqs"

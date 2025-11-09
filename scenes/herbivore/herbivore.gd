@@ -1,7 +1,7 @@
 class_name Herbivore extends Organism
 
 @onready
-var sensory_organ: SensoryOrgan = $SensoryOrgan
+var sensory_organelle: SensoryOrganelle = $SensoryOrganelle
 
 @onready
 var timer: Timer = $Timer
@@ -10,6 +10,12 @@ var brain: NeuralNetwork
 var i: int = 0
 func _ready() -> void:
 	super._ready()
+	var so = 0
+	for node in get_children():
+		if node is Organelle:
+			node.position.y = so
+			so += 10
+	
 	brain = NeuralNetwork.new(3 + 5 * 12, 3)
 	for node in brain.get_nodes():
 		node.clear()
@@ -29,15 +35,8 @@ func _process(delta: float) -> void:
 
 func _on_timer_timeout() -> void:
 	if is_alive:
-		var inputs: Array[float] = [
-			randf_range(0.0, 1.0),
-			randf_range(0.0, 1.0),
-			randf_range(0.0, 1.0),
-		]
-		inputs.append_array(sensory_organ.percept())
-		var outputs = brain.forward(inputs)
-		timer.wait_time = 1.0 + outputs[2]
-		jet(outputs[0] * 3000.0, outputs[1] * 10000.0 - 5000, true)
+		sensory_organelle.percept()
+		
 
 func _on_body_entered(body: Node) -> void:
 	if body is Algae and body.is_dead and is_alive:
@@ -67,3 +66,15 @@ func split_connection() -> void:
 		new_node.connect_to(to_node)
 		from_node.connect_to(new_node)
 		from_node.disconnect_from(to_node)
+
+
+func _on_sensory_organelle_percepted(perceptions: Array[float]) -> void:
+	var inputs: Array[float] = [
+			randf_range(0.0, 1.0),
+			randf_range(0.0, 1.0),
+			randf_range(0.0, 1.0),
+		]
+	inputs.append_array(perceptions)
+	var outputs = brain.forward(inputs)
+	timer.wait_time = 1.0 + outputs[2]
+	jet(outputs[0] * 3000.0, outputs[1] * 10000.0 - 5000, true)

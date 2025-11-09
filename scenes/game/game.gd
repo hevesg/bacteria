@@ -44,8 +44,7 @@ func split_connection() -> void:
 		new_node.connect_to(to_node)
 		from_node.connect_to(new_node)
 		from_node.disconnect_from(to_node)
-		
-var i: int = 0
+
 
 func _on_timer_timeout() -> void:	
 	var area_total_energy = 0
@@ -53,10 +52,6 @@ func _on_timer_timeout() -> void:
 	for area in areas.get_children():
 		if area is DishArea:
 			area_total_energy += area.energy
-	i = i + 1
-	#add_connection()
-	#if i % 5 == 0:
-		#split_connection()
 	
 	area_energy_info.description_text = area_total_energy
 	
