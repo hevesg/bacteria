@@ -16,7 +16,7 @@ func _ready() -> void:
 			node.position.y = so
 			so += 10
 	
-	brain = NeuralNetwork.new(3 + 5 * 12, 3)
+	brain = NeuralNetwork.new(3 + 3 * 12, 3)
 	for node in brain.get_nodes():
 		node.clear()
 	for i in range(3):
