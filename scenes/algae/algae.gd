@@ -3,8 +3,8 @@ class_name Algae extends Organism
 func _ready() -> void:
 	super._ready()
 
-func _process(delta: float) -> void:
-	super._process(delta)
+func on_frame(delta: float) -> void:
+	super.on_frame(delta)
 	if is_alive:
 		_suckEnergy(int(delta * Globals.TEN_THOUSAND))
 

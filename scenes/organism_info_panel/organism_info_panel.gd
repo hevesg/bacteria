@@ -26,13 +26,13 @@ func _update_title_display() -> void:
 		title_value.text = title
 
 func _update_data_display() -> void:
-	if container:
+	if container._container:
 		var total_current_energy: int = 0
 		var total_cumulative_energy: int = 0
 		var total_alive: int = 0
 		var total_dead: int = 0
 		
-		for organism in container.get_children():
+		for organism in container._container.get_children():
 			if organism is Organism:
 				total_current_energy += organism.energy.current
 				total_cumulative_energy += organism.energy.cumulative

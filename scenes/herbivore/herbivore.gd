@@ -24,19 +24,10 @@ func _ready() -> void:
 			brain.get_layer(1).get_node(i),
 			2.0, -1.0
 		)
-	#if i % 100 == 0:
-		#add_connection()
-	#if i % 200 == 0:
-		#split_connection()
-
-func _process(delta: float) -> void:
-	super._process(delta)
-
 
 func _on_timer_timeout() -> void:
 	if is_alive:
 		sensory_organelle.percept()
-		
 
 func _on_body_entered(body: Node) -> void:
 	if body is Algae and body.is_dead and is_alive:
@@ -45,7 +36,6 @@ func _on_body_entered(body: Node) -> void:
 
 func pick_random_non_output_neural_network_node():
 	return brain.get_nodes().filter(func(item): return not item.is_output()).pick_random()
-
 
 func add_connection() -> void:
 	var from_node = pick_random_non_output_neural_network_node()
@@ -66,7 +56,6 @@ func split_connection() -> void:
 		new_node.connect_to(to_node)
 		from_node.connect_to(new_node)
 		from_node.disconnect_from(to_node)
-
 
 func _on_sensory_organelle_percepted(perceptions: Array[float]) -> void:
 	var inputs: Array[float] = [

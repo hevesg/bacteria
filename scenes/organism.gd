@@ -30,10 +30,7 @@ func die() -> void:
 func set_energy_when_split(amount: int) -> void:
 	_energy_when_split = max(energy.current, amount)
 
-func _ready():
-	super._ready()
-
-func _process(delta: float) -> void:
+func on_frame(delta: float) -> void:
 	if is_dead:
 		if energy.cumulative > 0:
 			_rot_to_area(int(delta * Globals.TEN_THOUSAND))
@@ -53,9 +50,9 @@ func jet(directional_strength: float, torque_strength: float = 0.0, burn_energy:
 		energy.remove(int(directional_strength))
 	
 func split() -> void:
-	if get_parent().spawn:
+	if get_parent().get_parent().spawn:
 		var half = half_energy()
-		var new_organism = get_parent().spawn(
+		var new_organism = get_parent().get_parent().spawn(
 			position,
 			rotation - PI,
 			half.current,

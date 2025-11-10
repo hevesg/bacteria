@@ -4,3 +4,10 @@
 
 [node name="OrganismContainer" type="Node2D"]
 script = ExtResource("1_2jeky")
+
+[node name="Container" type="Node2D" parent="."]
+
+[node name="OnFrameTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="OnFrameTimer" to="." method="_on_frame_timeout"]

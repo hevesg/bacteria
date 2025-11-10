@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d32tslop45hq" path="res://scenes/game/game.gd" id="1_0sr1o"]
 [ext_resource type="PackedScene" uid="uid://bjs1drfks6vxg" path="res://scenes/petri_dish/petri_dish.tscn" id="2_7h61r"]
-[ext_resource type="Script" uid="uid://cfsv4d4uukd5o" path="res://scenes/organism_container/organism_container.gd" id="3_bdhmt"]
+[ext_resource type="PackedScene" uid="uid://bkt3tbwnxo0hc" path="res://scenes/organism_container/organism_container.tscn" id="3_4j704"]
 [ext_resource type="PackedScene" uid="uid://cse11so7v7j4d" path="res://scenes/algae/algae.tscn" id="4_87uf6"]
 [ext_resource type="PackedScene" uid="uid://0v2gy155h58" path="res://scenes/definition_list_item/definition_list_item.tscn" id="4_kelw5"]
 [ext_resource type="PackedScene" uid="uid://chociut5034bu" path="res://scenes/herbivore_dropper/herbivore_dropper.tscn" id="4_lfrn8"]
@@ -20,12 +20,10 @@ size = Vector2i(24, 17)
 initial_energy_per_area = 300000
 initial_algae = 33
 
-[node name="AlgaeContainer" type="Node2D" parent="PetriDish"]
-script = ExtResource("3_bdhmt")
+[node name="AlgaeContainer" parent="PetriDish" instance=ExtResource("3_4j704")]
 organism_scene = ExtResource("4_87uf6")
 
-[node name="HerbivoreContainer" type="Node2D" parent="PetriDish"]
-script = ExtResource("3_bdhmt")
+[node name="HerbivoreContainer" parent="PetriDish" instance=ExtResource("3_4j704")]
 organism_scene = ExtResource("5_2a8rs")
 
 [node name="Timer" type="Timer" parent="."]
