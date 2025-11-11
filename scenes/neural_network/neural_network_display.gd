@@ -7,7 +7,7 @@ var neural_network: NeuralNetwork:
 
 var node_radius: float
 var connection_width: float
-var max_connections_to_draw: int = 500  # Performance limit
+var max_connections_to_draw: int = 500000  # Performance limit
 
 var _node_positions: Dictionary = {}  # node -> Vector2
 

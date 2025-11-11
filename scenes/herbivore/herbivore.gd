@@ -34,29 +34,6 @@ func _on_body_entered(body: Node) -> void:
 		set_energy(energy.current + body.energy.cumulative)
 		body.queue_free()
 
-func pick_random_non_output_neural_network_node():
-	return brain.get_nodes().filter(func(item): return not item.is_output()).pick_random()
-
-func add_connection() -> void:
-	var from_node = pick_random_non_output_neural_network_node()
-	var to_node = from_node.get_higher_nodes().pick_random()
-	from_node.connect_to(to_node)
-
-func split_connection() -> void:
-	var from_node = pick_random_non_output_neural_network_node()
-	if from_node.get_outbound_connections().size() > 0:
-		var to_node = from_node.get_outbound_connections().keys().pick_random()
-		var layer_index = (from_node.get_layer().get_index() + to_node.get_layer().get_index()) / 2
-		var layer
-		if from_node.get_layer().get_index() == layer_index:
-			layer = brain.insert_layer_at(layer_index + 1)
-		else:
-			layer = brain.get_layer(layer_index)
-		var new_node = layer.insert_node()
-		new_node.connect_to(to_node)
-		from_node.connect_to(new_node)
-		from_node.disconnect_from(to_node)
-
 func _on_sensory_organelle_percepted(perceptions: Array[float]) -> void:
 	var inputs: Array[float] = [
 			randf_range(0.0, 1.0),

@@ -13,7 +13,7 @@ var _container: Node2D = $Container
 @export
 var organism_scene: PackedScene
 
-@export_range(1, 12, 1)
+@export_range(1, 20, 1)
 var batch_number: int = 6
 
 @export_range(0.1, 2.0, 0.1)

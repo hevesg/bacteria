@@ -137,6 +137,31 @@ func _init(input_count: int = 1, output_count: int = 1, hidden_layers: Array[int
 			for other_node in next_layer._nodes:
 				node.connect_to(other_node)
 
+func split_connection(from: NetworkNode, to: NetworkNode) -> void:
+	if from._outbound_connections.has(to):
+		var connection = from._outbound_connections.get(to)
+		var layer
+		var layer_index: int = (to.get_layer().get_index() + from.get_layer().get_index()) / 2
+		if from.get_layer().get_index() == layer_index:
+			layer = insert_layer_at(layer_index + 1)
+		else:
+			layer = get_layer(layer_index)
+		var new_node = layer.insert_node()
+		new_node.connect_to(to, connection._weight, connection._bias)
+		from.connect_to(new_node)
+		from.disconnect_from(to)
+
+func mutate() -> void:
+	var from_node: NetworkNode = get_nodes().filter(func(item): return not item.is_output()).pick_random()
+	var to_node: NetworkNode = from_node.get_higher_nodes(2).pick_random()
+	if from_node.get_outbound_connections().has(to_node):
+		split_connection(from_node, to_node)
+	else:
+		from_node.connect_to(to_node)
+		var longest_connection = to_node.get_longest_inbound_connection()
+		if longest_connection.get_length() > 2 and to_node.get_inbound_connections().size() > 1 and longest_connection._from.get_outbound_connections().size() > 1:
+			longest_connection._from.disconnect_from(to_node)
+
 class NetworkLayer:
 	var _network: NeuralNetwork
 	var _nodes: Array[NetworkNode] = []
@@ -254,13 +279,17 @@ class NetworkNode:
 		else:
 			return null
 	
-	func get_higher_nodes() -> Array[NetworkNode]:
+	func get_higher_nodes(target: int = 2) -> Array[NetworkNode]:
 		var nodes: Array[NetworkNode] = []
-		var layer = get_layer().next()
-		while layer:
-			nodes.append_array(layer.get_nodes())
-			layer = layer.next()
-		return nodes
+		var layer = get_layer().next().next()
+		if layer:
+			return layer.get_nodes()
+		else:
+			return get_layer().next().get_nodes()
+		#while layer:
+		#	nodes.append_array(layer.get_nodes())
+		#	layer = layer.next()
+		#return nodes
 	
 	func get_lower_nodes() -> Array[NetworkNode]:
 		var nodes: Array[NetworkNode] = []
@@ -279,6 +308,19 @@ class NetworkNode:
 	func is_hidden() -> bool:
 		return _layer.is_hidden()
 	
+	func get_longest_inbound_connection() -> NetworkConnection:
+		if _inbound_connections.is_empty():
+			return
+		
+		var connection: NetworkConnection
+		var length: int = 0
+		for con in _inbound_connections.values():
+			var len = con.get_length()
+			if len > length:
+				connection = con
+				length = len
+		return connection
+	
 class NetworkConnection:
 	var _from: NetworkNode
 	var _to: NetworkNode
@@ -290,3 +332,6 @@ class NetworkConnection:
 		_to = to
 		_weight = weight if weight is float else randf_range(-1.0, 1.0)
 		_bias = bias if bias is float else randf_range(-1.0, 1.0)
+	
+	func get_length() -> int:
+		return _to.get_layer().get_index() - _from.get_layer().get_index()

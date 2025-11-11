@@ -17,17 +17,18 @@ script = ExtResource("1_0sr1o")
 [node name="PetriDish" parent="." instance=ExtResource("2_7h61r")]
 position = Vector2(768, 544)
 size = Vector2i(24, 17)
-initial_energy_per_area = 300000
-initial_algae = 33
+initial_energy_per_area = 500000
+initial_algae = 100
 
 [node name="AlgaeContainer" parent="PetriDish" instance=ExtResource("3_4j704")]
 organism_scene = ExtResource("4_87uf6")
+batch_number = 20
 
 [node name="HerbivoreContainer" parent="PetriDish" instance=ExtResource("3_4j704")]
 organism_scene = ExtResource("5_2a8rs")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 10.0
 autostart = true
 
 [node name="AreaEnergy" parent="." instance=ExtResource("4_kelw5")]
@@ -73,10 +74,9 @@ title = "Herbivore"
 container = NodePath("../PetriDish/HerbivoreContainer")
 
 [node name="NeuralNetworkDisplay" parent="." instance=ExtResource("10_4j704")]
-offset_left = 1568.0
-offset_top = 32.0
-offset_right = 1888.0
-offset_bottom = 320.0
+offset_left = 1536.0
+offset_right = 1920.0
+offset_bottom = 360.0
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="on_drop_sprite" from="HerbivoreDropper" to="." method="_on_herbivore_drop"]

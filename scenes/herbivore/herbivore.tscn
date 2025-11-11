@@ -1,12 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bvwtl1p6udhdk"]
+[gd_scene load_steps=8 format=3 uid="uid://bvwtl1p6udhdk"]
 
 [ext_resource type="Script" uid="uid://cx2qd2ur5x1p1" path="res://scenes/herbivore/herbivore.gd" id="1_71fjf"]
 [ext_resource type="Texture2D" uid="uid://01sxpgv7f480" path="res://assets/herbivore.svg" id="2_71fjf"]
 [ext_resource type="Script" uid="uid://b0r86nvugkd4y" path="res://scenes/organelles/sensory_organelle.gd" id="3_ukq4o"]
 [ext_resource type="Script" uid="uid://f5hg84t1tsdh" path="res://scenes/shapes/star.gd" id="4_p5s75"]
 [ext_resource type="Script" uid="uid://cmowvsobbvf3m" path="res://scenes/organelles/brain_organelle.gd" id="5_c25ur"]
-[ext_resource type="PackedScene" uid="uid://u5ube7bpjpq2" path="res://scenes/neural_network/neural_network_display.tscn" id="6_6gulb"]
-[ext_resource type="Script" uid="uid://cbyw55wbfxn5i" path="res://scenes/neural_network/neural_network.gd" id="7_eqaki"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_71fjf"]
 friction = 0.0
@@ -14,9 +12,6 @@ bounce = 0.1
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gw1la"]
 radius = 8.0
-
-[sub_resource type="Resource" id="Resource_eqaki"]
-script = ExtResource("7_eqaki")
 
 [node name="Herbivore" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_71fjf")
@@ -27,7 +22,6 @@ linear_damp = 1.0
 script = ExtResource("1_71fjf")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
 texture = ExtResource("2_71fjf")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
@@ -51,12 +45,13 @@ outline_width = 0.0
 script = ExtResource("5_c25ur")
 input_nodes = 63
 
-[node name="Brain" parent="BrainOrganelle" instance=ExtResource("6_6gulb")]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-neural_network = SubResource("Resource_eqaki")
+[node name="Shape" type="Node2D" parent="BrainOrganelle"]
+script = ExtResource("4_p5s75")
+star_points = 12
+outer_radius = 6.0
+inner_radius = 3.0
+star_color = Color(0.141176, 0.4, 0, 1)
+outline_width = 0.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
