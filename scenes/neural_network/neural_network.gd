@@ -128,7 +128,7 @@ func _init(input_count: int = 1, output_count: int = 1, hidden_layers: Array[int
 	for layer_count in layers_count:
 		var layer = NetworkLayer.new(self)
 		for node_count in layer_count:
-			var node = layer.insert_node()
+			layer.insert_node()
 		_layers.append(layer)
 		
 	for node in _nodes:
@@ -233,9 +233,15 @@ class NetworkNode:
 	func get_outbound_connections() -> Dictionary[NetworkNode, NetworkConnection]:
 		return _outbound_connections.duplicate()
 	
+	func has_outbound_connections() -> bool:
+		return !get_outbound_connections().is_empty()
+	
 	func get_inbound_connections() -> Dictionary[NetworkNode, NetworkConnection]:
 		return _inbound_connections.duplicate()
-		
+	
+	func has_inbound_connections() -> bool:
+		return !get_inbound_connections().is_empty()
+	
 	func get_outbound_connection_to(node: NetworkNode) -> NetworkConnection:
 		if _outbound_connections.has(node):
 			return _outbound_connections.get(node)

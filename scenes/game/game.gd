@@ -10,7 +10,7 @@ class_name Game extends Node2D
 @onready var total_energy_info: DefinitionListItem = $TotalEnergy
 
 @onready var neural_network_display: NeuralNetworkDisplay = $NeuralNetworkDisplay
-var neural_network: NeuralNetwork = NeuralNetwork.new(8,3)
+var neural_network: NeuralNetwork = NeuralNetwork.new(9, 3)
 
 func _ready() -> void:
 	for node in neural_network.get_nodes():
@@ -20,7 +20,7 @@ func _ready() -> void:
 			neural_network.get_layer(1).get_node(i),
 			1.0, 0.0
 		)
-	neural_network_display.set_neural_network(neural_network)
+	neural_network_display.neural_network = neural_network
 
 func pick_random_non_output_neural_network_node():
 	return neural_network.get_nodes().filter(func(item): return not item.is_output()).pick_random()
@@ -45,8 +45,9 @@ func split_connection() -> void:
 		from_node.connect_to(new_node)
 		from_node.disconnect_from(to_node)
 
-
-func _on_timer_timeout() -> void:	
+var loop: int = 0
+func _on_timer_timeout() -> void:
+	loop += 1	
 	var area_total_energy = 0
 	
 	for area in areas.get_children():
@@ -54,8 +55,11 @@ func _on_timer_timeout() -> void:
 			area_total_energy += area.energy
 	
 	area_energy_info.description_text = area_total_energy
-	
+	add_connection()
+	if loop % 5 == 0:
+		split_connection()
 	neural_network_display.queue_redraw()
+
 
 func _on_herbivore_drop(mouse_position: Vector2) -> void:
 	var pos = mouse_position - petriDish.position

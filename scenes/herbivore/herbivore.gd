@@ -7,7 +7,7 @@ var sensory_organelle: SensoryOrganelle = $SensoryOrganelle
 var timer: Timer = $Timer
 
 var brain: NeuralNetwork
-var i: int = 0
+
 func _ready() -> void:
 	super._ready()
 	var so = 0
